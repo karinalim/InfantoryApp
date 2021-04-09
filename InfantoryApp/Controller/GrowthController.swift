@@ -9,8 +9,24 @@ import UIKit
 
 
 
-class GrowthController: UIViewController {
-
+class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    var monthSelected : Int = 0
+    
+    @IBOutlet weak var growthCollectionView: UICollectionView!
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return growthModel.generateDummy().count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let growthCell = collectionView.dequeueReusableCell(withReuseIdentifier: "growthCell", for: indexPath) as! GrowthCollectionViewCell
+        
+        growthCell.configGrowthCell(with: (indexPath.row+1) )
+        growthCell.backgroundColor = UIColor.primary
+        growthCell.layer.cornerRadius = growthCell.bounds.width/2
+        return growthCell
+    }
     
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -19,15 +35,16 @@ class GrowthController: UIViewController {
     
     @IBOutlet weak var growthIconImage1: UIImageView!
     
-    
     @IBOutlet weak var growthIconImage2: UIImageView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
         setGrowthInfo()
+        
+        growthCollectionView.dataSource = self
+        growthCollectionView.delegate = self
         
     }
     
@@ -36,6 +53,20 @@ class GrowthController: UIViewController {
     @IBOutlet weak var bottomView : UIView!
     @IBOutlet weak var growthTableLabel : UILabel!
     @IBOutlet weak var growthTitle : UINavigationItem!
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 80, height: 80)
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        print(indexPath.row)
+        self.monthSelected = indexPath.row
+        print("click: \(self.monthSelected)")
+        self.setGrowthInfo()
+        
+    }
     
     
     
@@ -47,7 +78,7 @@ class GrowthController: UIViewController {
         
         bgView.backgroundColor = UIColor.systemGray6
         
-        profileImage.image = UIImage(named: "babyImage")
+        profileImage.image = UIImage(named: "babyProfile")
         profileImage.layer.masksToBounds = true
         profileImage.layer.cornerRadius = profileImage.bounds.width/2
         
@@ -62,65 +93,30 @@ class GrowthController: UIViewController {
         growthTableLabel.textColor = #colorLiteral(red: 0.2934505343, green: 0.5710052252, blue: 0.5805695057, alpha: 1)
         growthTableLabel.font = UIFont.boldSystemFont(ofSize: 27)
         
-        
-        
-        
-        
+        if let layout = growthCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
     }
     
-    @IBOutlet weak var motorikLabel: UILabel!
-    @IBOutlet weak var socioLabel: UILabel!
+    @IBOutlet weak var introLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     //    set data for growth info
     let growthData : [growthModel] = growthModel.generateDummy()
-    var monthSelected : Int = 0
+    
     
     
     func setGrowthInfo() {
-        motorikLabel.text = growthData[monthSelected].motorik
-        socioLabel.text = growthData[monthSelected
-        ].socio
+        introLabel.text = growthData[monthSelected].intro
+        descriptionLabel.text = growthData[monthSelected
+        ].description
         
+        introLabel.numberOfLines = 0
+        introLabel.font = UIFont(name: "Arial", size: 17)
         
-        motorikLabel.numberOfLines = 0
-        motorikLabel.font = UIFont(name: "Arial", size: 17)
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.font = UIFont(name: "Arial", size: 17)
+        descriptionLabel.sizeToFit()
         
-        socioLabel.numberOfLines = 0
-        socioLabel.font = UIFont(name: "Arial", size: 17)
-        socioLabel.sizeToFit()
-        
- 
-    }
-    
-    
-    
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    
-
-}
-
-
-extension UIImage{
-    var roundedImage: UIImage {
-        let rect = CGRect(origin:CGPoint(x: 0, y: 0), size: self.size)
-        UIGraphicsBeginImageContextWithOptions(self.size, false, 1)
-        UIBezierPath(
-            roundedRect: rect,
-            cornerRadius: 100
-            ).addClip()
-        self.draw(in: rect)
-        return UIGraphicsGetImageFromCurrentImageContext()!
     }
 }
 
