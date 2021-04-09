@@ -117,6 +117,7 @@
                         <outlet property="addChildNavBar" destination="qrg-rO-nul" id="6HW-ik-hQ1"/>
                         <outlet property="addPhotoButton" destination="Q38-gv-lA8" id="aj2-gs-x6m"/>
                         <outlet property="birthdayLabel" destination="VUM-D0-akf" id="mWe-7z-ufh"/>
+                        <outlet property="birthdayPicker" destination="n7z-UN-np6" id="pTo-k1-RS1"/>
                         <outlet property="genderLabel" destination="lKc-wA-6CV" id="49g-d9-npI"/>
                         <outlet property="imageAddChild" destination="Yxu-PT-BUx" id="ro3-S1-O2Y"/>
                         <outlet property="nameLabel" destination="D5G-eJ-CvP" id="xEt-nW-eBJ"/>
