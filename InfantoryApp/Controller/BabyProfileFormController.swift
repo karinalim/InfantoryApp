@@ -23,8 +23,10 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         
     // Text Field Outlets
         @IBOutlet weak var addBabyName: UITextField!
+        @IBOutlet weak var birthdayField: UITextField!
     
     var imagePicker = UIImagePickerController()
+    let datePicker = UIDatePicker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,8 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         imagePicker.mediaTypes = ["public.image"]
         
         makeImageRound()
+        
+        createDatePicker()
     }
     
     func makeImageRound() {
@@ -79,5 +83,33 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         
         imageAddChild.image = imageSelected
         imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func createDatePicker() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        
+        toolbar.setItems([doneBtn], animated: true)
+        
+        birthdayField.inputAccessoryView = toolbar
+        
+        birthdayField.inputView = datePicker
+        
+        datePicker.datePickerMode = .date
+        
+        datePicker.preferredDatePickerStyle = .wheels
+        
+    }
+    
+    @objc func donePressed() {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+//        formatter.dateFormat = "MM/dd/yy"
+        formatter.timeStyle = .none
+        
+        birthdayField.text = formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
     }
 }
