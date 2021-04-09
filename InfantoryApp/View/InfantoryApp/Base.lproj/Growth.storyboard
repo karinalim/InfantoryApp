@@ -24,11 +24,19 @@
                                         <rect key="frame" x="0.0" y="8" width="390" height="1200"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ync-5X-43U">
-                                                <rect key="frame" x="0.0" y="-8" width="390" height="177"/>
+                                                <rect key="frame" x="0.0" y="-8" width="390" height="195"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PT-EE-MMD">
+                                                        <rect key="frame" x="91" y="173" width="209" height="22"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <connections>
+                                                            <action selector="addPhotoButton:" destination="6Xs-Qc-3Ih" eventType="touchUpInside" id="zvz-pb-cp6"/>
+                                                        </connections>
+                                                    </button>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBe-Hg-9ky">
-                                                        <rect key="frame" x="120" y="13" width="150" height="150"/>
+                                                        <rect key="frame" x="120" y="8" width="150" height="150"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     </imageView>
                                                 </subviews>
@@ -77,11 +85,11 @@
                                                 <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                             </view>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cev-RU-ClY">
-                                                <rect key="frame" x="0.0" y="169" width="390" height="136"/>
+                                                <rect key="frame" x="2" y="184" width="390" height="85"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WQS-aY-JhY">
-                                                        <rect key="frame" x="8" y="0.0" width="374" height="136"/>
+                                                        <rect key="frame" x="8" y="33" width="374" height="103"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bse-g0-OFa">
@@ -99,13 +107,13 @@
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4M-Rt-ng9">
-                                                                            <rect key="frame" x="43" y="28.666666666666671" width="42" height="21"/>
+                                                                            <rect key="frame" x="43" y="38.666666666666664" width="42" height="21"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KmY-4J-D5w">
-                                                                            <rect key="frame" x="43" y="50.666666666666664" width="42" height="20.999999999999993"/>
+                                                                            <rect key="frame" x="43" y="60.666666666666657" width="42" height="21"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -114,7 +122,7 @@
                                                                     <constraints>
                                                                         <constraint firstItem="KmY-4J-D5w" firstAttribute="top" secondItem="V4M-Rt-ng9" secondAttribute="bottom" constant="1" id="160-9m-Gnb"/>
                                                                         <constraint firstItem="KmY-4J-D5w" firstAttribute="centerX" secondItem="qVl-rf-e4H" secondAttribute="centerX" id="WRE-dD-s1W"/>
-                                                                        <constraint firstItem="V4M-Rt-ng9" firstAttribute="centerY" secondItem="qVl-rf-e4H" secondAttribute="centerY" constant="-25" id="nkM-ba-AKv"/>
+                                                                        <constraint firstItem="V4M-Rt-ng9" firstAttribute="centerY" secondItem="qVl-rf-e4H" secondAttribute="centerY" constant="-15" id="nkM-ba-AKv"/>
                                                                         <constraint firstItem="V4M-Rt-ng9" firstAttribute="centerX" secondItem="qVl-rf-e4H" secondAttribute="centerX" id="xOd-xv-eYX"/>
                                                                     </constraints>
                                                                 </collectionViewCellContentView>
@@ -156,6 +164,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="fJY-zM-6rP"/>
                     <connections>
+                        <outlet property="addPhotoButtonLook" destination="1PT-EE-MMD" id="AHf-Ej-FHV"/>
                         <outlet property="bgView" destination="pll-YH-oUy" id="e04-jP-ply"/>
                         <outlet property="bottomView" destination="7oW-NW-MNY" id="uHg-Se-5CO"/>
                         <outlet property="descriptionLabel" destination="Czs-X4-GFC" id="dPL-uK-spr"/>

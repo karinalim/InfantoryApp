@@ -31,6 +31,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     }
     
     
+    
     @IBOutlet weak var profileImage: UIImageView!
     
 //    growthView Manager
@@ -77,6 +78,9 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         growthTitle.title = "Growth"
         
         
+        addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
+        addPhotoButtonLook.setTitleColor(UIColor.primary, for: .normal)
+        
         growthScrollView.backgroundColor = UIColor.systemGray6
         
         bgView.backgroundColor = UIColor.systemGray6
@@ -107,6 +111,10 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     let growthData : [growthModel] = growthModel.generateDummy()
     
     
+    @IBAction func addPhotoButton(_ sender: Any) {
+    }
+    
+    @IBOutlet weak var addPhotoButtonLook:UIButton!
     
     func setGrowthInfo() {
         introLabel.text = growthData[monthSelected].intro
