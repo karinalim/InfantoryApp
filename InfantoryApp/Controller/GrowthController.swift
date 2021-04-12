@@ -23,10 +23,13 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         let growthCell = collectionView.dequeueReusableCell(withReuseIdentifier: "growthCell", for: indexPath) as! GrowthCollectionViewCell
         
         growthCell.configGrowthCell(with: (indexPath.row+1) )
-        growthCell.backgroundColor = UIColor.primary
+        growthCell.backgroundColor = UIColor.white
         growthCell.layer.cornerRadius = growthCell.bounds.width/2
+        growthCell.layer.borderWidth = 5
+        growthCell.layer.borderColor = UIColor.primary?.cgColor
         return growthCell
     }
+    
     
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -74,6 +77,10 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
 //        profileImage setUp
         growthTitle.title = "Growth"
         
+        
+        addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
+        addPhotoButtonLook.setTitleColor(UIColor.primary, for: .normal)
+        
         growthScrollView.backgroundColor = UIColor.systemGray6
         
         bgView.backgroundColor = UIColor.systemGray6
@@ -90,7 +97,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         bottomView.layer.cornerRadius = 20
         bottomView.backgroundColor = UIColor.white
         growthTableLabel.text = "Growth"
-        growthTableLabel.textColor = #colorLiteral(red: 0.2934505343, green: 0.5710052252, blue: 0.5805695057, alpha: 1)
+        growthTableLabel.textColor = UIColor.primary
         growthTableLabel.font = UIFont.boldSystemFont(ofSize: 27)
         
         if let layout = growthCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -104,6 +111,10 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     let growthData : [growthModel] = growthModel.generateDummy()
     
     
+    @IBAction func addPhotoButton(_ sender: Any) {
+    }
+    
+    @IBOutlet weak var addPhotoButtonLook:UIButton!
     
     func setGrowthInfo() {
         introLabel.text = growthData[monthSelected].intro
