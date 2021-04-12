@@ -9,6 +9,10 @@ import UIKit
 
 class BabyProfileController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var items:[Baby]?
+    
     @IBOutlet weak var colView: UICollectionView!
 
     @IBAction func tapToAddBaby() {
@@ -18,7 +22,20 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchBaby()
+        
         initColView()
+    }
+    
+    func fetchBaby() {
+        do {
+            self.items = try context.fetch(Baby.fetchRequest())
+            
+            
+        } catch {
+            
+        }
+        
     }
     
 //    Initialize Page
@@ -40,14 +57,22 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return self.items?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BabyProfileCell", for: indexPath) as! BabyProfileCell
         
-        cell.setName(with: "Didud")
+        let baby = self.items![indexPath.row]
+        
+        cell.setName(with: "\(baby.name ?? "")")
+        cell.setGender(with: "\(baby.gender ?? "")")
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        
+        cell.setDOB(with: "\(formatter.string(from: baby.dateOfBirth!))")
         cell.layer.cornerRadius = 10.0
         
         return cell
