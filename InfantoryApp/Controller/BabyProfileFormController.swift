@@ -9,6 +9,10 @@ import UIKit
 
 class BabyProfileFormController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var items:[Baby]?
+    
     // Navigation Bar Outlets
         @IBOutlet weak var addChildNavBar: UINavigationBar!
         
@@ -22,15 +26,18 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         @IBOutlet weak var genderLabel: UILabel!
         
     // Text Field Outlets
-        @IBOutlet weak var addBabyName: UITextField!
+        @IBOutlet weak var nameField: UITextField!
         @IBOutlet weak var birthdayField: UITextField!
+        @IBOutlet weak var genderField: UITextField!
     
     var imagePicker = UIImagePickerController()
     let datePicker = UIDatePicker()
     
+    var dateOfBirth:Date?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         imagePicker.mediaTypes = ["public.image"]
@@ -38,6 +45,15 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         makeImageRound()
         
         createDatePicker()
+    }
+    
+    func fetchBaby() {
+        //Fetching data from core data
+        do{
+            self.items = try context.fetch(Baby.fetchRequest())
+        }catch{
+            
+        }
     }
     
     func makeImageRound() {
@@ -66,7 +82,29 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func doneButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        if nameField.text == "" || birthdayField.text == "" || genderField.text == "" {
+            let alert = UIAlertController(title: "Add Baby Data", message: "Add missing data!", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            let newBaby = Baby(context: self.context)
+            newBaby.name = nameField.text
+            newBaby.dateOfBirth = dateOfBirth
+            newBaby.gender = genderField.text
+            
+            do{
+                try self.context.save()
+            }catch{
+                print("error saving data")
+            }
+            
+            self.dismiss(animated: true, completion: nil)
+            
+        }
+        
+        
     }
     
 //    Add Photo Actions
@@ -104,9 +142,13 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc func donePressed() {
+        dateOfBirth = datePicker.date
+        
+        print(datePicker.date)
+        print(dateOfBirth)
+        
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-//        formatter.dateFormat = "MM/dd/yy"
         formatter.timeStyle = .none
         
         birthdayField.text = formatter.string(from: datePicker.date)

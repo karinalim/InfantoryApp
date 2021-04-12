@@ -47,7 +47,6 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
 //        if(month.isCurrent){
 //            cell.iconMonth.tintColor = UIColor.primary
 //        }
-//        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         return cell
     }
     
@@ -67,23 +66,10 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedMonth = months[indexPath.row]
-//        let cell = tableView.cellForRow(at: indexPath)
-//        cell?.backgroundColor = UIColor.secondary
         self.performSegue(withIdentifier: "VaccineListMonthSegue", sender: self)
         
-//        cell?.backgroundColor = UIColor.white
     }
     
-//    func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
-//        let cell = tableView.cellForRow(at: indexPath)
-//        cell?.backgroundColor = UIColor.white
-//        return indexPath
-//    }
-//
-//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath)
-//        cell?.backgroundColor = UIColor.white
-//    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "VaccineListMonthSegue"){
