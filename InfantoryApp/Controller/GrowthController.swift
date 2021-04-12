@@ -27,7 +27,16 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         growthCell.layer.cornerRadius = growthCell.bounds.width/2
         growthCell.layer.borderWidth = 5
         growthCell.layer.borderColor = UIColor.primary?.cgColor
+        
+        if monthSelected == indexPath.row {
+            growthCell.backgroundColor = UIColor.secondary
+        } else {
+            growthCell.backgroundColor = UIColor.clear
+        }
+        
         return growthCell
+        
+        
     }
     
     
@@ -68,9 +77,12 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         self.monthSelected = indexPath.row
         print("click: \(self.monthSelected)")
         self.setGrowthInfo()
+        self.growthCollectionView.reloadData()
+        self.growthCollectionView.reloadData()
+        
         
     }
-    
+
     
     
     func setUI() {
