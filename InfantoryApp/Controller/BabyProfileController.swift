@@ -30,12 +30,9 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     func fetchBaby() {
         do {
             self.items = try context.fetch(Baby.fetchRequest())
-            
-            
         } catch {
             
         }
-        
     }
     
 //    Initialize Page

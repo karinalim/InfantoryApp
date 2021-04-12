@@ -54,6 +54,7 @@
                     <connections>
                         <outlet property="colView" destination="7lO-Kp-2aK" id="blI-WI-PWJ"/>
                         <segue destination="TnN-TG-pHC" kind="presentation" identifier="BabyProfileFormSegue" id="mU4-9m-Orm"/>
+                        <segue destination="wrc-TG-oYg" kind="presentation" identifier="BabyProfileEditSegue" id="vrP-ax-h2I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rhW-6W-Ua7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -90,6 +91,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bzj-lU-ZvD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-272.30769230769232" y="939.09952606635068"/>
+        </scene>
+        <!--BabyProfileEdit-->
+        <scene sceneID="P1m-ZF-6hs">
+            <objects>
+                <viewControllerPlaceholder storyboardName="BabyProfileEdit" id="wrc-TG-oYg" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HOJ-gK-4Ox" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1560" y="869"/>
         </scene>
     </scenes>
     <resources>

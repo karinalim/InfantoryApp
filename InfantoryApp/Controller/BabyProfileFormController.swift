@@ -99,9 +99,8 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
             }catch{
                 print("error saving data")
             }
-            
+
             self.dismiss(animated: true, completion: nil)
-            
         }
         
         
