@@ -11,6 +11,10 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    let genders = ["Boy", "Girl"]
+
+    var pickerView = UIPickerView()
+    
     var items:[Baby]?
     
     // Navigation Bar Outlets
@@ -45,15 +49,11 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         makeImageRound()
         
         createDatePicker()
-    }
-    
-    func fetchBaby() {
-        //Fetching data from core data
-        do{
-            self.items = try context.fetch(Baby.fetchRequest())
-        }catch{
-            
-        }
+        
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+        genderField.inputView = pickerView
     }
     
     func makeImageRound() {
@@ -78,6 +78,8 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
     
 // Navigation Bar Actions
     @IBAction func cancelButton(_ sender: Any) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -99,6 +101,7 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
             }catch{
                 print("error saving data")
             }
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
 
             self.dismiss(animated: true, completion: nil)
         }
@@ -152,5 +155,23 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         
         birthdayField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
+    }
+}
+
+extension BabyProfileFormController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return genders.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return genders[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        genderField.text = genders[row]
+        genderField.resignFirstResponder()
     }
 }

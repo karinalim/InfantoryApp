@@ -14,6 +14,19 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     var items:[Baby]?
     
     @IBOutlet weak var colView: UICollectionView!
+    
+    func fetchBaby() {
+        do {
+            self.items = try context.fetch(Baby.fetchRequest())
+            
+            DispatchQueue.main.async {
+                self.colView.reloadData()
+            }
+        } catch {
+            
+        }
+        
+    }
 
     @IBAction func tapToAddBaby() {
         self.performSegue(withIdentifier: "BabyProfileFormSegue", sender: self)
@@ -25,15 +38,15 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         fetchBaby()
         
         initColView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+        
     }
     
-    func fetchBaby() {
-        do {
-            self.items = try context.fetch(Baby.fetchRequest())
-        } catch {
-            
-        }
+    @objc func loadList(notification: NSNotification){
+        fetchBaby()
     }
+    
     
 //    Initialize Page
 //    ============================================================================
