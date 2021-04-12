@@ -19,15 +19,15 @@ class BabyProfileCell: UICollectionViewCell {
     }
     
     public func setName(with name: String) {
-        babyName.text = name
+        babyName.text? = name
     }
     
     public func setDOB(with dob: String) {
-        babyDOB.text = dob
+        babyDOB.text? = dob
     }
     
     public func setGender(with gender: String) {
-        babyGender.text = gender
+        babyGender.text? = gender
     }
     
     static func nib() -> UINib {

@@ -28,6 +28,7 @@
 		8419D724261EDAC900F2AEA8 /* GrowthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419D723261EDAC900F2AEA8 /* GrowthCollectionViewCell.swift */; };
 		84A7EB44261D0EDA00169FE7 /* VacinneCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7EB43261D0EDA00169FE7 /* VacinneCardView.swift */; };
 		84A7EB49261D177C00169FE7 /* BabyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7EB48261D177C00169FE7 /* BabyCardView.swift */; };
+		84F94ABC262218FE00F4A29C /* EditBabyProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84F94ABB262218FE00F4A29C /* EditBabyProfile.storyboard */; };
 		EE7E87E0261ECA74005976CA /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7E87DF261ECA74005976CA /* Color.swift */; };
 		EE8F7D0A261ADFB700FD13AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F7D09261ADFB700FD13AE /* AppDelegate.swift */; };
 		EE8F7D0C261ADFB700FD13AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F7D0B261ADFB700FD13AE /* SceneDelegate.swift */; };
@@ -81,6 +82,7 @@
 		8419D723261EDAC900F2AEA8 /* GrowthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowthCollectionViewCell.swift; sourceTree = "<group>"; };
 		84A7EB43261D0EDA00169FE7 /* VacinneCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VacinneCardView.swift; sourceTree = "<group>"; };
 		84A7EB48261D177C00169FE7 /* BabyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyCardView.swift; sourceTree = "<group>"; };
+		84F94ABB262218FE00F4A29C /* EditBabyProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditBabyProfile.storyboard; sourceTree = "<group>"; };
 		EE7E87DF261ECA74005976CA /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		EE8F7D06261ADFB700FD13AE /* InfantoryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfantoryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE8F7D09261ADFB700FD13AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				02040704261B4C710036687E /* BabyProfileForm.storyboard */,
+				84F94ABB262218FE00F4A29C /* EditBabyProfile.storyboard */,
 				020406FE261B4C1D0036687E /* BabyProfile.storyboard */,
 				0204070C261B4D100036687E /* Growth.storyboard */,
 				EE8F7D0F261ADFB700FD13AE /* Main.storyboard */,
@@ -332,6 +335,7 @@
 			files = (
 				EE8F7D19261ADFB800FD13AE /* LaunchScreen.storyboard in Resources */,
 				020406F2261B314C0036687E /* VaccineListMonth.storyboard in Resources */,
+				84F94ABC262218FE00F4A29C /* EditBabyProfile.storyboard in Resources */,
 				02DC3981261DFF460098990A /* VaccineMonthCell.xib in Resources */,
 				EE8F7D16261ADFB800FD13AE /* Assets.xcassets in Resources */,
 				026B8345261FF22800339AD6 /* BabyProfileCell.xib in Resources */,
