@@ -9,8 +9,9 @@ import UIKit
 
 
 
-class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var monthSelected : Int = 0
+  
     
     @IBOutlet weak var growthCollectionView: UICollectionView!
     
@@ -47,7 +48,10 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     
     @IBOutlet weak var growthIconImage1: UIImageView!
     
+//    Image Configuration
     @IBOutlet weak var growthIconImage2: UIImageView!
+    var  imagePickerGrowth = UIImagePickerController()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +61,12 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
         growthCollectionView.dataSource = self
         growthCollectionView.delegate = self
+        
+        imagePickerGrowth.delegate = self
+        imagePickerGrowth.allowsEditing = true
+//        ini apa artinya?
+        imagePickerGrowth.mediaTypes = ["public.image"]
+        
         
     }
     
@@ -97,9 +107,11 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
         bgView.backgroundColor = UIColor.systemGray6
         
-        profileImage.image = UIImage(named: "babyProfile")
+        
+     
         profileImage.layer.masksToBounds = true
         profileImage.layer.cornerRadius = profileImage.bounds.width/2
+        
         
       
         growthIconImage1.image = UIImage(named: "growthEmoji")
@@ -139,8 +151,66 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = UIFont(name: "Arial", size: 17)
         descriptionLabel.sizeToFit()
+      
+        
+        let cathedImage = getSavedImage(named: "selected\(monthSelected).png")
+        profileImage.image = cathedImage
+      
         
     }
+    
+//    Add Photo Action
+    
+    @IBAction func addGrowthPhoto (_ sender: Any) {
+        self.present(imagePickerGrowth, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let imageSelected = info[.editedImage] as? UIImage else {
+            return
+        }
+        
+        profileImage.image = imageSelected
+        profileImage.contentMode = .scaleAspectFill
+        imagePickerGrowth.dismiss(animated: true, completion: nil)
+        
+//        works
+        saveImage(image: imageSelected, named: "selected\(monthSelected).png")
+        let cathedImage = getSavedImage(named: "selected\(monthSelected).png")
+        profileImage.image = cathedImage
+       
+      
+    }
+    
+//     try saved Image to test
+//   trial aman
+    
+  
+    
+    
+//set directory path func
+    func documentDirectoryPath() -> URL? {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return path.first
+    }
+    
+    //      try to save image
+    func saveImage(image : UIImage, named: String) {
+        if let pngData = image.pngData(),
+               let path = documentDirectoryPath()?.appendingPathComponent(named) {
+               try? pngData.write(to: path)
+           }
+    }
+    
+//    try to get image
+    
+    func getSavedImage(named: String) ->UIImage? {
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(named).path)
+           }
+           return nil
+    }
+    
 }
 
 
