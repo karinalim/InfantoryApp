@@ -104,7 +104,6 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
 
             self.dismiss(animated: true, completion: nil)
-            
         }
         
         
