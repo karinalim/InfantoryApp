@@ -153,8 +153,15 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         descriptionLabel.sizeToFit()
       
         
-        let cathedImage = getSavedImage(named: "selected\(monthSelected).png")
-        profileImage.image = cathedImage
+        if getSavedImage(named: "selected\(monthSelected).png") != nil {
+            let catchedImage = getSavedImage(named: "selected\(monthSelected).png")
+            profileImage.image = catchedImage
+            profileImage.contentMode = .scaleAspectFill
+        } else {
+            profileImage.image = UIImage(systemName: "person.crop.circle")
+            profileImage.tintColor = UIColor.primary
+        }
+       
       
         
     }
