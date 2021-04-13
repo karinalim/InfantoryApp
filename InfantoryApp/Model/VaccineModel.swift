@@ -20,8 +20,8 @@ struct Vaccine {
             Vaccine(moonId: 1, moonName: "First Month", name: "Polio", icon: "iconPolio", isTrue: false),
             Vaccine(moonId: 1, moonName: "First Month", name: "DPT", icon: "iconDPT", isTrue: true),
             Vaccine(moonId: 1, moonName: "First Month", name: "Campak", icon: "iconCampak", isTrue: false),
-            Vaccine(moonId: 1, moonName: "First Month", name: "Hepatitis B", icon: "iconHepatitisB", isTrue: true),
-            Vaccine(moonId: 2, moonName: "Second Month", name: "Hepatitis A", icon: "iconHepatitisA", isTrue: true),
+            Vaccine(moonId: 1, moonName: "First Month", name: "Hepatitis B", icon: "iconHepatitis", isTrue: true),
+            Vaccine(moonId: 2, moonName: "Second Month", name: "Hepatitis A", icon: "iconHepatitis", isTrue: true),
         ]
     }
     

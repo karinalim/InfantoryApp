@@ -17,6 +17,8 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
     
     var items:[Baby]?
     
+    var generatedPhotoName = ""
+    
     // Navigation Bar Outlets
         @IBOutlet weak var addChildNavBar: UINavigationBar!
         
@@ -95,6 +97,7 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
             newBaby.name = nameField.text
             newBaby.dateOfBirth = dateOfBirth
             newBaby.gender = genderField.text
+            newBaby.photo = generatedPhotoName
             
             do{
                 try self.context.save()
@@ -105,26 +108,7 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
 
             self.dismiss(animated: true, completion: nil)
         }
-        
-        
     }
-    
-//    Add Photo Actions
-//    ==================================================================
-    
-    @IBAction func addPhotoButton(_ sender: Any) {
-        self.present(imagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let imageSelected = info[.editedImage] as? UIImage else {
-            return
-        }
-        
-        imageAddChild.image = imageSelected
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-    
     
     func createDatePicker() {
         let toolbar = UIToolbar()
@@ -144,11 +128,49 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
         
     }
     
+//    Add Photo Actions
+//    ==================================================================
+    
+    @IBAction func addPhotoButton(_ sender: Any) {
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let imageSelected = info[.editedImage] as? UIImage else {
+            return
+        }
+        
+        imageAddChild.image = imageSelected
+        imageAddChild.contentMode = .scaleAspectFill
+        imagePicker.dismiss(animated: true, completion: nil)
+        
+        generatedPhotoName = "\(randomNum()).png"
+        
+        saveImage(image: imageSelected, named: generatedPhotoName)
+    }
+
+    func documentDirectoryPath() -> URL? {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return path.first
+    }
+
+    func saveImage(image : UIImage, named: String) {
+        if let pngData = image.pngData(),
+        let path = documentDirectoryPath()?.appendingPathComponent(named) {
+            try? pngData.write(to: path)
+        }
+    }
+    
+    func randomNum() -> String {
+        var number = String()
+        for _ in 1...8 {
+           number += "\(Int.random(in: 1...9))"
+        }
+        return number
+    }
+    
     @objc func donePressed() {
         dateOfBirth = datePicker.date
-        
-        print(datePicker.date)
-        print(dateOfBirth)
         
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -163,6 +185,7 @@ extension BabyProfileFormController: UIPickerViewDelegate, UIPickerViewDataSourc
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return genders.count
     }

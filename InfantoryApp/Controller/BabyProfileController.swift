@@ -78,6 +78,7 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         
         cell.setName(with: "\(baby.name ?? "")")
         cell.setGender(with: "\(baby.gender ?? "")")
+        cell.babyPhoto.image = getSavedImage(named: "\(baby.photo ?? "")")
         
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"
@@ -86,6 +87,13 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         cell.layer.cornerRadius = 10.0
         
         return cell
+    }
+    
+    func getSavedImage(named: String) -> UIImage? {
+        if let dir = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) {
+            return UIImage(contentsOfFile: URL(fileURLWithPath: dir.absoluteString).appendingPathComponent(named).path)
+            }
+            return nil
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
