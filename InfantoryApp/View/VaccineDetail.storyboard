@@ -81,6 +81,8 @@ Integer lacinia consectetur vestibulum. Phasellus id dignissim elit, vitae ferme
                     <navigationItem key="navigationItem" id="EzC-Xe-yd7"/>
                     <connections>
                         <outlet property="dateField" destination="SGe-QY-2zN" id="ySG-Uq-N7Q"/>
+                        <outlet property="navBar" destination="rhU-Ck-521" id="bcg-16-ptr"/>
+                        <outlet property="vaccineDetail" destination="XRX-Dc-tut" id="nwR-Vr-RoF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tQR-SV-fmR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
