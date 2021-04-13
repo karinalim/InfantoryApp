@@ -96,7 +96,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     
     
     func setUI() {
-//        profileImage setUp
+//        UI setup
         growthTitle.title = "Growth"
         
         
@@ -107,12 +107,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
         bgView.backgroundColor = UIColor.systemGray6
         
-        
-     
         profileImage.layer.masksToBounds = true
         profileImage.layer.cornerRadius = profileImage.bounds.width/2
-        
-        
       
         growthIconImage1.image = UIImage(named: "growthEmoji")
     
@@ -157,9 +153,13 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             let catchedImage = getSavedImage(named: "selected\(monthSelected).png")
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
+            
+            
         } else {
-            profileImage.image = UIImage(systemName: "person.circle.fill")
+            profileImage.image = UIImage(systemName: "plus.circle.fill")
             profileImage.tintColor = UIColor.primary
+            
+            
         }
        
       
