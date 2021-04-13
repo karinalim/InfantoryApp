@@ -89,7 +89,24 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         cell.setDOB(with: "\(formatter.string(from: baby.dateOfBirth!))")
         cell.layer.cornerRadius = 10.0
         
+        if baby.isActive == true {
+            setBorderOn(with: cell)
+        } else {
+            setBorderOff(with: cell)
+        }
+
+//        collectionView.reloadData()
+        
         return cell
+    }
+
+    public func setBorderOn(with cell:BabyProfileCell) {
+        cell.layer.borderColor = #colorLiteral(red: 0, green: 0.5782148242, blue: 0.6328265667, alpha: 0.8470588235)
+        cell.layer.borderWidth = 4
+    }
+
+    public func setBorderOff(with cell:BabyProfileCell) {
+        cell.layer.borderColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha: 1).cgColor
     }
     
     func getSavedImage(named: String) -> UIImage? {
@@ -109,6 +126,7 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         actionSheet.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { action in
             print("Dismiss")
         }))
+        
         actionSheet.addAction(UIAlertAction(title: "Choose", style: .default, handler: { action in
             print("Choose")
             do{
@@ -117,8 +135,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
                 request.predicate = pred
                 
                 self.babies = try self.context2.fetch(request)
-                
-                print(self.babies?.count)
             } catch{
                 
             }
@@ -126,11 +142,14 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
                 babyy.isActive = false
             }
             baby.isActive = true
+            self.fetchBaby()
         }))
+        
         actionSheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
             print("Edit")
-            
+            self.performSegue(withIdentifier: "BabyProfileEditSegue", sender: self)
         }))
+        
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
             print("Delete")
             self.context.delete(baby)

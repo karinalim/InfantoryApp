@@ -102,7 +102,6 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
                 self.items = try context.fetch(request)
                 
                 if self.items?.count != 0 {
-                    print(self.items?.count)
                     let baby = self.items![0]
                     baby.isActive = false
                 }
