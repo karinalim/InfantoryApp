@@ -158,7 +158,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
         } else {
-            profileImage.image = UIImage(systemName: "person.crop.circle")
+            profileImage.image = UIImage(systemName: "person.circle.fill")
             profileImage.tintColor = UIColor.primary
         }
        
