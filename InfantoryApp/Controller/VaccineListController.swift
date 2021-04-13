@@ -50,16 +50,17 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
-    func getVaccines(vaccineList: [String]) -> String{
+    func getVaccines(vaccineList: [Vaccine]) -> String{
         var vaccines: String = ""
         if(vaccineList.count <= 0){
             return "No Vaccine"
         }
         for vaccine in vaccineList {
+            let vaccineName: String = vaccine.name + " Vaccine"
             if vaccines == "" {
-                vaccines = vaccine
+                vaccines = vaccineName
             }
-            vaccines = vaccines + ", " + vaccine
+            vaccines = vaccines + ", " + vaccineName
         }
         return vaccines
     }
