@@ -10,7 +10,8 @@ import UIKit
 
 
 class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    var monthSelected : Int = 0
+    var monthSelected : Int = 1
+    var monthInfoSelected : Int!
   
     
     @IBOutlet weak var growthCollectionView: UICollectionView!
@@ -23,18 +24,42 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
         let growthCell = collectionView.dequeueReusableCell(withReuseIdentifier: "growthCell", for: indexPath) as! GrowthCollectionViewCell
         
-        growthCell.configGrowthCell(with: (indexPath.row+1) )
-        growthCell.backgroundColor = UIColor.white
-        growthCell.layer.cornerRadius = growthCell.bounds.width/2
-        growthCell.layer.borderWidth = 5
-        growthCell.layer.borderColor = UIColor.primary?.cgColor
-        
-        if monthSelected == indexPath.row {
+        growthCell.configGrowthCell(with: (indexPath.row) )
+        if indexPath.row == monthSelected {
+            growthCell.backgroundColor = UIColor.white
+            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+            growthCell.layer.borderColor = UIColor.primary?.cgColor
+            growthCell.layer.borderWidth = 5
+           
+        } else {growthCell.backgroundColor = UIColor.white
+            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+            growthCell.layer.borderColor = UIColor.systemGray5.cgColor
+            growthCell.layer.borderWidth = 5
+        }; if monthInfoSelected == indexPath.row {
+            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+//            growthCell.layer.borderColor = UIColor.systemGray5.cgColor
+            growthCell.layer.borderWidth = 5
             growthCell.backgroundColor = UIColor.secondary
-        } else {
-            growthCell.backgroundColor = UIColor.clear
+            
         }
+//        ;
+//        if monthSelected == indexPath.row && indexPath.row == monthSelected{
+//            growthCell.backgroundColor = UIColor.white
+//            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+//            growthCell.backgroundColor = UIColor.secondary
+//            growthCell.layer.borderWidth = 5
+//        }
+////        growthCell.backgroundColor = UIColor.white
+//        growthCell.layer.cornerRadius = growthCell.bounds.width/2
+//        growthCell.layer.borderWidth = 5
+//        growthCell.layer.borderColor = UIColor.primary?.cgColor
         
+//        if monthSelected == indexPath.row {
+//            growthCell.backgroundColor = UIColor.secondary
+//        } else {
+//            growthCell.backgroundColor = UIColor.clear
+//        }
+//
         return growthCell
         
         
@@ -84,11 +109,11 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         print(indexPath.row)
-        self.monthSelected = indexPath.row
+        self.monthInfoSelected = indexPath.row
         print("click: \(self.monthSelected)")
         self.setGrowthInfo()
         self.growthCollectionView.reloadData()
-        self.growthCollectionView.reloadData()
+        
         
         
     }
