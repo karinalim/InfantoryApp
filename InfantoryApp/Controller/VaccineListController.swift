@@ -134,8 +134,8 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         form.unitsStyle = .full
         form.allowedUnits = [.month]
         let s = form.string(from: babyDOB, to: Date())
-        currMonthId = getMonthIdOnly(s ?? "0 month")
-        setCurrentMonth(currMonthId)
+        currentMonthId = getMonthIdOnly(s ?? "0 month")
+        setCurrentMonth(currentMonthId)
     }
     
     func getMonthIdOnly(_ currentMonth: String) -> Int{
