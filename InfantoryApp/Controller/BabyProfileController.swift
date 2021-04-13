@@ -16,11 +16,18 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     var items:[Baby]?
     var babies:[Baby]?
     
+    var babySend:Baby?
+    
     @IBOutlet weak var colView: UICollectionView!
     
     func fetchBaby() {
         do {
-            self.items = try context.fetch(Baby.fetchRequest())
+            let req = Baby.fetchRequest() as NSFetchRequest<Baby>
+            
+            let sort = NSSortDescriptor(key: "dateOfBirth", ascending: false)
+            req.sortDescriptors = [sort]
+            
+            self.items = try context.fetch(req)
             
             DispatchQueue.main.async {
                 self.colView.reloadData()
@@ -28,7 +35,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         } catch {
             
         }
-        
     }
 
     @IBAction func tapToAddBaby() {
@@ -47,7 +53,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     @objc func loadList(notification: NSNotification){
         fetchBaby()
     }
-    
     
 //    Initialize Page
 //    ============================================================================
@@ -94,8 +99,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             setBorderOff(with: cell)
         }
-
-//        collectionView.reloadData()
         
         return cell
     }
@@ -147,6 +150,7 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         
         actionSheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
             print("Edit")
+            self.babySend = baby
             self.performSegue(withIdentifier: "BabyProfileEditSegue", sender: self)
         }))
         
@@ -174,6 +178,13 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
             baby.isActive = true
         } catch {
             
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "BabyProfileEditSegue"){
+            let destinationVC = segue.destination as? BabyProfileEditController
+            destinationVC?.babyInfo = babySend
         }
     }
 }

@@ -6,11 +6,17 @@
 //
 
 import UIKit
+import CoreData
 
 
 
 class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var monthSelected : Int = 0
+    var currentMonth : Int = 0
+    var monthInfoSelected : Int!
+    var isActive : Bool!
+    var babyName :String?
+    var babyDOB : Date?
   
     
     @IBOutlet weak var growthCollectionView: UICollectionView!
@@ -23,18 +29,42 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
         let growthCell = collectionView.dequeueReusableCell(withReuseIdentifier: "growthCell", for: indexPath) as! GrowthCollectionViewCell
         
-        growthCell.configGrowthCell(with: (indexPath.row+1) )
-        growthCell.backgroundColor = UIColor.white
-        growthCell.layer.cornerRadius = growthCell.bounds.width/2
-        growthCell.layer.borderWidth = 5
-        growthCell.layer.borderColor = UIColor.primary?.cgColor
-        
-        if monthSelected == indexPath.row {
+        growthCell.configGrowthCell(with: (indexPath.row) )
+        if  indexPath.row == currentMonth {
+            growthCell.backgroundColor = UIColor.white
+            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+            growthCell.layer.borderColor = UIColor.primary?.cgColor
+            growthCell.layer.borderWidth = 5
+           
+        } else {growthCell.backgroundColor = UIColor.white
+            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+            growthCell.layer.borderColor = UIColor.systemGray5.cgColor
+            growthCell.layer.borderWidth = 5
+        }; if monthSelected == indexPath.row {
+            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+//            growthCell.layer.borderColor = UIColor.systemGray5.cgColor
+            growthCell.layer.borderWidth = 5
             growthCell.backgroundColor = UIColor.secondary
-        } else {
-            growthCell.backgroundColor = UIColor.clear
+            
         }
+//        ;
+//        if monthSelected == indexPath.row && indexPath.row == monthSelected{
+//            growthCell.backgroundColor = UIColor.white
+//            growthCell.layer.cornerRadius = growthCell.bounds.width/2
+//            growthCell.backgroundColor = UIColor.secondary
+//            growthCell.layer.borderWidth = 5
+//        }
+////        growthCell.backgroundColor = UIColor.white
+//        growthCell.layer.cornerRadius = growthCell.bounds.width/2
+//        growthCell.layer.borderWidth = 5
+//        growthCell.layer.borderColor = UIColor.primary?.cgColor
         
+//        if monthSelected == indexPath.row {
+//            growthCell.backgroundColor = UIColor.secondary
+//        } else {
+//            growthCell.backgroundColor = UIColor.clear
+//        }
+//
         return growthCell
         
         
@@ -64,8 +94,15 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         imagePickerGrowth.allowsEditing = true
 //        ini apa artinya?
         imagePickerGrowth.mediaTypes = ["public.image"]
-        
-        
+        fetchBabyData()
+        growthCollectionView.reloadData()
+//        toMonth()
+    }
+    
+//    try trigger function in Collection View
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        fetchBabyData()
+       
     }
     
     @IBOutlet weak var growthScrollView: UIScrollView!
@@ -81,34 +118,33 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        print(indexPath.row)
+//        print(indexPath.row)
         self.monthSelected = indexPath.row
-        print("click: \(self.monthSelected)")
+//
+        
         self.setGrowthInfo()
         self.growthCollectionView.reloadData()
-        self.growthCollectionView.reloadData()
+        self.fetchBabyData()
+//        self.toMonth()
+        
         
     }
 
     
     func setUI() {
-//        profileImage setUp
+//        UI setup
         growthTitle.title = "Growth"
         
         
-        addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
+//        addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
         addPhotoButtonLook.setTitleColor(UIColor.primary, for: .normal)
         
         growthScrollView.backgroundColor = UIColor.systemGray6
         
         bgView.backgroundColor = UIColor.systemGray6
         
-        
-     
         profileImage.layer.masksToBounds = true
         profileImage.layer.cornerRadius = profileImage.bounds.width/2
-        
-        
       
         growthIconImage1.image = UIImage(named: "growthEmoji")
     
@@ -137,7 +173,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     @IBOutlet weak var addPhotoButtonLook:UIButton!
     
     func setGrowthInfo() {
-        introLabel.text = growthData[monthSelected].intro
+        introLabel.text = growthData[monthSelected ].intro
         descriptionLabel.text = growthData[monthSelected
         ].description
         
@@ -149,13 +185,18 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         descriptionLabel.sizeToFit()
       
         
-        if getSavedImage(named: "selected\(monthSelected).png") != nil {
-            let catchedImage = getSavedImage(named: "selected\(monthSelected).png")
+        if getSavedImage(named: "\(babyName ?? "")selected\(monthSelected).png") != nil {
+            let catchedImage = getSavedImage(named: "\(babyName ?? "")selected\(monthSelected).png")
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
+            addPhotoButtonLook.setTitle("Edit Photo", for: .normal)
+            
+            
         } else {
-            profileImage.image = UIImage(systemName: "person.crop.circle")
+            profileImage.image = UIImage(systemName: "plus.circle")
             profileImage.tintColor = UIColor.primary
+            addPhotoButtonLook.setTitle("Add Photo", for: .normal)
+            
         }
     }
     
@@ -175,8 +216,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         imagePickerGrowth.dismiss(animated: true, completion: nil)
         
 //        works
-        saveImage(image: imageSelected, named: "selected\(monthSelected).png")
-        let cathedImage = getSavedImage(named: "selected\(monthSelected).png")
+        saveImage(image: imageSelected, named: "\(babyName ?? "" )selected\(monthSelected).png")
+        let cathedImage = getSavedImage(named: "\(babyName ?? "" )selected\(monthSelected).png")
         profileImage.image = cathedImage
        
       
@@ -211,7 +252,67 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
            return nil
     }
     
+    var items:[Baby]?
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+   
+ 
+    
+    
+    func fetchBabyData() {
+//        let babyData = Baby(context: context)
+        do{
+            let request = Baby.fetchRequest() as NSFetchRequest<Baby>
+            let pred = NSPredicate(format: "isActive = true")
+            request.predicate = pred
+            self.items = try context.fetch(request)
+            
+            if self.items?.count != 0 {
+                let baby = self.items![0]
+                self.babyName = baby.name ?? ""
+//                let date = Date()
+                self.babyDOB = baby.dateOfBirth!
+                
+                self.currentMonth = Date().months(sinceDate: babyDOB!)!
+                
+                
+                print(currentMonth)
+// to month
+                
+//                to inspect
+//                ===========
+                
+//                print(baby.dateOfBirth!)
+//                print(baby.name!)
+                
+    }
+        }catch{
+        
+        }}
+    
+ 
+    
+    
+//    func toMonth() {
+////        print (Date().months(sinceDate: babyDOB!) ?? 1)
+//
+//        guard currentMonth == Date().months(sinceDate: babyDOB!) else {
+//            return
+//        }
+//        print(currentMonth!)
+//    }
+    
+   
+       
 }
 
+
+extension Date {
+
+    func months(sinceDate: Date) -> Int? {
+        return Calendar.current.dateComponents([.month], from: sinceDate, to: self).month
+    }
+
+
+}
 
 
