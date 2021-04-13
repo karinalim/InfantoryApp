@@ -50,11 +50,11 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         cell.monthTitle.text = currMonth.name
         cell.vaccineList.text = getVaccines(vaccineList: currMonth.vaccineList)
         cell.overdueLabel.text = ""
-        //TODO: Create function to get completed & overdue status
-        if(indexPath.row == 1){
+        //TODO: Create function to get completed & overdue status -- CANT FETCH VACCINE RECEIVED FROM CORE DATA
+        if(currMonth.isOverdue && !currMonth.isCompleted){
             cell.overdueLabel.text = "!"
         }
-        //TODO: Create function to sync with baby age to get colored icon
+        //Create function to sync with baby age to get colored icon
         if(currMonth.isCurrent){
             print(currMonth.isCurrent)
             cell.iconMonth.image = UIImage(named: "green_\(currMonth.icon)")
@@ -96,11 +96,12 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         do {
             let fetchRequest = Baby.fetchRequest() as NSFetchRequest<Baby>
             fetchRequest.predicate = NSPredicate(format: "isActive == true")
+            fetchRequest.relationshipKeyPathsForPrefetching = ["vaccineRecieved"]
             let babies = try context.fetch(fetchRequest)
             if(babies.count > 0){
                 self.activeBaby = babies[0]
                 self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
-//                self.syncVaccineStatus(self.currentMonthId, self.activeBaby?.vaccineRecieved as [VaccineRecieved])
+                setCurrentMonth(currentMonthId)
                 self.vaccineListTableView.reloadData()
             }
             
@@ -109,24 +110,49 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-//    func syncVaccineStatus(_ currMonthId: Int, _ vaccineReceivedList:[VaccineRecieved]){
-//        
-//    }
-    
     func setCurrentMonth(_ id: Int){
         var temp:[Month] = []
         for var mo in months{
             mo.isCurrent = false
+            mo.isCompleted = false
+            mo.isOverdue = false
             if(mo.id == id){
                 mo.isCurrent = true
+            }
+            else if(mo.id < id){
+                mo.isOverdue = true
+                mo.isCompleted = checkIfCompleted(mo)
             }
             temp.append(mo)
             print("\(mo.id): \(mo.isCurrent)")
         }
         months.removeAll()
         months = temp
-        
     }
+    
+    func checkIfCompleted(_ month: Month)-> Bool{
+        //TODO: get core data vaccine received here
+//        let vaccineReceivedList = activeBaby?.vaccineRecieved.getAll()
+//        let today = Date()
+//        if(month.vaccineList.count == vaccineReceivedList){
+//            month.isCompleted = true
+//        }
+//        for vList in month.vaccineList{
+//            let inputed = vaccineReceivedList.findById(vList.id)
+//            if(!inputed?isEmpty){
+//                if(today.compare(inputed.date) == ComparisonResult.orderedAscending){
+//                    vList.isTrue = false
+//                    month.isCompleted = false
+//                }
+//                else{
+//                    vList.isTrue = true
+//                }
+//            }
+//
+//        }
+        return false
+    }
+    
     
     func getCurrentMonth(_ babyDOB: Date){
         let form = DateComponentsFormatter()
@@ -135,7 +161,6 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         form.allowedUnits = [.month]
         let s = form.string(from: babyDOB, to: Date())
         currentMonthId = getMonthIdOnly(s ?? "0 month")
-        setCurrentMonth(currentMonthId)
     }
     
     func getMonthIdOnly(_ currentMonth: String) -> Int{
