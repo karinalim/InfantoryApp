@@ -100,7 +100,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         growthTitle.title = "Growth"
         
         
-        addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
+//        addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
         addPhotoButtonLook.setTitleColor(UIColor.primary, for: .normal)
         
         growthScrollView.backgroundColor = UIColor.systemGray6
@@ -153,12 +153,13 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             let catchedImage = getSavedImage(named: "selected\(monthSelected).png")
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
+            addPhotoButtonLook.setTitle("Edit Baby's Growth Photo", for: .normal)
             
             
         } else {
-            profileImage.image = UIImage(systemName: "plus.circle.fill")
+            profileImage.image = UIImage(systemName: "plus.circle")
             profileImage.tintColor = UIColor.primary
-            
+            addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
             
         }
        
