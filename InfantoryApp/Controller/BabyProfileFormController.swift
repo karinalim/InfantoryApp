@@ -105,7 +105,7 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
                     let baby = self.items![0]
                     baby.isActive = false
                 }
-            } catch{
+            } catch {
                 
             }
             

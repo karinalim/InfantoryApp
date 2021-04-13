@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class VaccineListMonthController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -20,6 +21,10 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     var usedArray: [Vaccine] = []
     
     var selectedVaccine = Vaccine()
+    
+    var vaccineForDate: [VaccineRecieved] = []
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +36,32 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         self.title = month.name
         
         initCollectionView()
+    }
+    
+    func fetchData(with curr:Vaccine) -> String {
+        var date = ""
+        do{
+            let request = VaccineRecieved.fetchRequest() as NSFetchRequest<VaccineRecieved>
+            let pred = NSPredicate(format: "vaccineId == \(curr.id)")
+            request.predicate = pred
+    
+            self.vaccineForDate = try context.fetch(request)
+    
+            if self.vaccineForDate.count != 0 {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM/dd/yy"
+                date = formatter.string(from: vaccineForDate[0].date!)
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            } else {
+                date = "dd/mm/yy"
+            }
+        } catch {
+    
+        }
+        return date
     }
     
     //    IBAction Function
@@ -58,6 +89,7 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
                 falseVaccine.append(vaccine)
             }
         }
+        
         usedArray = falseVaccine
     }
     
@@ -86,9 +118,13 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VaccineMonthCell", for: indexPath) as! VaccineMonthCell
         
         let currVaccine = usedArray[indexPath.row]
+        let vaccineDate = fetchData(with: currVaccine)
         
         cell.setName(with: currVaccine.name)
         cell.vaccineIcon.image = UIImage(named: currVaccine.icon)
+        
+        cell.setDate(with: vaccineDate)
+        
         cell.layer.cornerRadius = 8.0
         
         return cell

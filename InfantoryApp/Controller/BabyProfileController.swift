@@ -28,7 +28,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         } catch {
             
         }
-        
     }
 
     @IBAction func tapToAddBaby() {
@@ -47,7 +46,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
     @objc func loadList(notification: NSNotification){
         fetchBaby()
     }
-    
     
 //    Initialize Page
 //    ============================================================================
@@ -94,8 +92,6 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         } else {
             setBorderOff(with: cell)
         }
-
-//        collectionView.reloadData()
         
         return cell
     }
