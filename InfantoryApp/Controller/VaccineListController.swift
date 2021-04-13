@@ -10,9 +10,11 @@ import CoreData
 
 class VaccineListController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let months: [Month] = Month.generateAllMonth()
     var selectedMonth = Month()
-    var activeBaby = Baby()
+    var activeBaby: Baby?
+    var currentMonthId = -1
 
     @IBOutlet weak var vaccineListTableView: UITableView!
     @IBOutlet weak var activeProfilePicture: UIBarButtonItem!
@@ -20,15 +22,14 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fetchActiveBaby()
         // Do any additional setup after loading the view.
         vaccineListTableView.dataSource = self
         vaccineListTableView.delegate  = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         fetchActiveBaby()
-//        setProfileImage()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -52,9 +53,10 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             cell.overdueLabel.text = "!"
         }
         //TODO: Create function to sync with baby age to get colored icon
-//        if(month.isCurrent){
-//            cell.iconMonth.tintColor = UIColor.primary
-//        }
+        if(currMonth.isCurrent){
+            print(currMonth.isCurrent)
+            cell.iconMonth.image = UIImage(named: "green_\(currMonth.icon)")
+        }
         return cell
     }
     
@@ -90,34 +92,63 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
     
     func fetchActiveBaby(){
         do {
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             let fetchRequest = Baby.fetchRequest() as NSFetchRequest<Baby>
             fetchRequest.predicate = NSPredicate(format: "isActive == true")
             let babies = try context.fetch(fetchRequest)
-            if(babies.count > 0){
-                self.activeBaby = babies[0]
-                setProfileImage()
-            }
+//            DispatchQueue.main.async {
+                if(babies.count > 0){
+                    self.activeBaby = babies[0]
+                    self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
+    //                setProfileImage()
+                }
+//            }
+            
         } catch {
             
         }
     }
     
-    func setProfileImage(){
-        let img: UIImage = UIImage.init(named: "\(activeBaby.babyPhoto)") ?? UIImage.init(systemName: "person.fill") as! UIImage
-        let imgView: UIImageView = makeImageRound()
-        imgView.image = img
-        imgView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-        let rightBtn: UIBarButtonItem = UIBarButtonItem.init(customView: imgView)
-        self.navigationItem.rightBarButtonItem = rightBtn;
+    func setCurrentMonth(_ id: Int){
+        for var mo in months{
+            mo.isCurrent = false
+            if(mo.id == id){
+                mo.isCurrent = true
+            }
+            print("\(mo.id) + ': ' + \(mo.isCurrent)")
+        }
+        vaccineListTableView.reloadData()
     }
     
-    func makeImageRound() -> UIImageView{
-        let view = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        view.layer.masksToBounds = true;
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.cornerRadius = view.frame.height/2
-        view.clipsToBounds = true
-        return view
+    func getCurrentMonth(_ babyDOB: Date){
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .full
+        form.allowedUnits = [.month]
+        let s = form.string(from: babyDOB, to: Date())
+        let currMonthId = getMonthIdOnly(s ?? "0 month")
+        setCurrentMonth(currMonthId)
     }
+    
+    func getMonthIdOnly(_ currentMonth: String) -> Int{
+        let stringArr: [String.SubSequence] = currentMonth.split(separator: " ")
+        return Int(stringArr[0]) ?? 0
+    }
+    
+//    func setProfileImage(){
+//        let img: UIImage = UIImage.init(named: "\(activeBaby.babyPhoto)") ?? UIImage.init(systemName: "person.fill") as! UIImage
+//        let imgView: UIImageView = makeImageRound()
+//        imgView.image = img
+//        imgView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+//        let rightBtn: UIBarButtonItem = UIBarButtonItem.init(customView: imgView)
+//        self.navigationItem.rightBarButtonItem = rightBtn;
+//    }
+//
+//    func makeImageRound() -> UIImageView{
+//        let view = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+//        view.layer.masksToBounds = true;
+//        view.layer.borderColor = UIColor.black.cgColor
+//        view.layer.cornerRadius = view.frame.height/2
+//        view.clipsToBounds = true
+//        return view
+//    }
 }
