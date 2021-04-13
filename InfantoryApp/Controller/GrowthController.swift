@@ -11,10 +11,12 @@ import CoreData
 
 
 class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    var monthSelected : Int = 1
-    var currentMonth : Int = 1
+    var monthSelected : Int = 0
+    var currentMonth : Int = 0
     var monthInfoSelected : Int!
     var isActive : Bool!
+    var babyName :String?
+    var babyDOB : Date?
   
     
     @IBOutlet weak var growthCollectionView: UICollectionView!
@@ -92,10 +94,15 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         imagePickerGrowth.allowsEditing = true
 //        ini apa artinya?
         imagePickerGrowth.mediaTypes = ["public.image"]
-        
-        
-        
-        
+        fetchBabyData()
+        growthCollectionView.reloadData()
+//        toMonth()
+    }
+    
+//    try trigger function in Collection View
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        fetchBabyData()
+       
     }
     
     @IBOutlet weak var growthScrollView: UIScrollView!
@@ -111,11 +118,14 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        print(indexPath.row)
+//        print(indexPath.row)
         self.monthSelected = indexPath.row
-        print("click: \(self.monthSelected)")
+//
+        
         self.setGrowthInfo()
         self.growthCollectionView.reloadData()
+        self.fetchBabyData()
+//        self.toMonth()
         
         
     }
@@ -163,7 +173,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     @IBOutlet weak var addPhotoButtonLook:UIButton!
     
     func setGrowthInfo() {
-        introLabel.text = growthData[monthSelected].intro
+        introLabel.text = growthData[monthSelected ].intro
         descriptionLabel.text = growthData[monthSelected
         ].description
         
@@ -175,8 +185,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         descriptionLabel.sizeToFit()
       
         
-        if getSavedImage(named: "selected\(monthSelected).png") != nil {
-            let catchedImage = getSavedImage(named: "selected\(monthSelected).png")
+        if getSavedImage(named: "\(babyName ?? "")selected\(monthSelected).png") != nil {
+            let catchedImage = getSavedImage(named: "\(babyName ?? "")selected\(monthSelected).png")
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
             addPhotoButtonLook.setTitle("Edit Photo", for: .normal)
@@ -206,8 +216,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         imagePickerGrowth.dismiss(animated: true, completion: nil)
         
 //        works
-        saveImage(image: imageSelected, named: "selected\(monthSelected).png")
-        let cathedImage = getSavedImage(named: "selected\(monthSelected).png")
+        saveImage(image: imageSelected, named: "\(babyName ?? "" )selected\(monthSelected).png")
+        let cathedImage = getSavedImage(named: "\(babyName ?? "" )selected\(monthSelected).png")
         profileImage.image = cathedImage
        
       
@@ -245,11 +255,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     var items:[Baby]?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
    
-    @IBOutlet weak var trialLabel: UILabel!
-    @IBAction func trialButton(_ sender: Any) {
-   changeToMonth()
-        fetchBabyData()
-    }
+ 
     
     
     func fetchBabyData() {
@@ -262,22 +268,51 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             
             if self.items?.count != 0 {
                 let baby = self.items![0]
-                print(baby.dateOfBirth!)
-                print(baby.name!)
+                self.babyName = baby.name ?? ""
+//                let date = Date()
+                self.babyDOB = baby.dateOfBirth!
+                
+                self.currentMonth = Date().months(sinceDate: babyDOB!)!
+                
+                
+                print(currentMonth)
+// to month
+                
+//                to inspect
+//                ===========
+                
+//                print(baby.dateOfBirth!)
+//                print(baby.name!)
                 
     }
         }catch{
         
         }}
     
-   func changeToMonth() {
-        let dateOfBirth : Date = Date(timeIntervalSinceNow: 1)
+ 
     
-        print(dateOfBirth)
-        
-    }
+    
+//    func toMonth() {
+////        print (Date().months(sinceDate: babyDOB!) ?? 1)
+//
+//        guard currentMonth == Date().months(sinceDate: babyDOB!) else {
+//            return
+//        }
+//        print(currentMonth!)
+//    }
+    
+   
        
 }
 
+
+extension Date {
+
+    func months(sinceDate: Date) -> Int? {
+        return Calendar.current.dateComponents([.month], from: sinceDate, to: self).month
+    }
+
+
+}
 
 
