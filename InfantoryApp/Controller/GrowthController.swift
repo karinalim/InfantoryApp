@@ -95,7 +95,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
 //        ini apa artinya?
         imagePickerGrowth.mediaTypes = ["public.image"]
         
-        GrowthController.changeToMonth()
+        
         
         
     }
@@ -183,13 +183,13 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             let catchedImage = getSavedImage(named: "selected\(monthSelected).png")
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
-            addPhotoButtonLook.setTitle("Edit Baby's Growth Photo", for: .normal)
+            addPhotoButtonLook.setTitle("Edit Photo", for: .normal)
             
             
         } else {
             profileImage.image = UIImage(systemName: "plus.circle")
             profileImage.tintColor = UIColor.primary
-            addPhotoButtonLook.setTitle("Add Baby's Growth Photo", for: .normal)
+            addPhotoButtonLook.setTitle("Add Photo", for: .normal)
             
         }
        
@@ -250,9 +250,20 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     }
     
     
-    static func changeToMonth() {
-        let dateSince30 = Date(timeIntervalSinceReferenceDate: 30)
-        print(dateSince30)
+    @IBAction func trialButton(_ sender: Any) {
+   changeToMonth()
+        fetchDOB()
+    }
+    
+    
+    func fetchDOB() {
+        
+    }
+    
+   func changeToMonth() {
+        let dateOfBirth : Date = Date(timeIntervalSinceNow: 1)
+        print(dateOfBirth)
+        
     }
        
 }
