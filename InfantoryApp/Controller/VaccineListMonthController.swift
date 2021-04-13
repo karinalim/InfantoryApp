@@ -18,6 +18,8 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
 
     var month: Month = Month()
     var usedArray: [Vaccine] = []
+    
+    var selectedVaccine = Vaccine()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +72,7 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        self.selectedVaccine = usedArray[indexPath.row]
         
         self.performSegue(withIdentifier: "VaccineDetailSegue", sender: self)
     }
@@ -92,5 +95,12 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 360, height: 70)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "VaccineDetailSegue"){
+            let destinationVC = segue.destination as? VaccineDetailController
+            destinationVC?.vaccine = selectedVaccine
+        }
     }
 }
