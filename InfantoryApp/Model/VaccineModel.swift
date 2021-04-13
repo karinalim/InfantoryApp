@@ -10,7 +10,6 @@ import Foundation
 struct Vaccine {
     private(set) var id: Int64 = -1
     private(set) var moonId: Int = -1
-//    private(set) var moonName: String
     private(set) var name: String = ""
     private(set) var icon: String = ""
     private(set) var description: String = ""
@@ -39,8 +38,8 @@ struct Vaccine {
             Vaccine(id : 18, moonId: 6, name: "PCV 3", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
             Vaccine(id : 19, moonId: 6, name: "Rotavirus Pentavalen 1", icon: "iconRotaPenta", description: getRotaPentaDesc(), isTrue: false),
             Vaccine(id : 20, moonId: 6, name: "Influenza", icon: "iconFlu", description: getFluDesc(), isTrue: false),
-            Vaccine(id : 21, moonId: 9, name: "MR", icon: "iocnMR", description: getMRdesc(), isTrue: false),
-            Vaccine(id : 22, moonId: 9, name: "JE", icon: "iocnJE", description: getJEdesc(), isTrue: false),
+            Vaccine(id : 21, moonId: 9, name: "MR", icon: "iconMR", description: getMRdesc(), isTrue: false),
+            Vaccine(id : 22, moonId: 9, name: "JE", icon: "iconJE", description: getJEdesc(), isTrue: false),
             Vaccine(id : 23, moonId: 11, name: "PCV 4", icon: "iconPCV", description: getDPTdesc(), isTrue: false),
             Vaccine(id : 24, moonId: 12, name: "JE", icon: "iconJE", description: getJEdesc(), isTrue: false),
         ]

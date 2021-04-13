@@ -65,7 +65,6 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
 //        ini apa artinya?
         imagePickerGrowth.mediaTypes = ["public.image"]
         
-        
     }
     
     @IBOutlet weak var growthScrollView: UIScrollView!
