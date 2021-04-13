@@ -11,7 +11,7 @@ import CoreData
 class VaccineListController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    let months: [Month] = Month.generateAllMonth()
+    var months: [Month] = Month.generateAllMonth()
     var selectedMonth = Month()
     var activeBaby: Baby?
     var currentMonthId = -1
@@ -19,17 +19,19 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var vaccineListTableView: UITableView!
     @IBOutlet weak var activeProfilePicture: UIBarButtonItem!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchActiveBaby()
+//        fetchActiveBaby()
         // Do any additional setup after loading the view.
-        vaccineListTableView.dataSource = self
-        vaccineListTableView.delegate  = self
+//        vaccineListTableView.dataSource = self
+//        vaccineListTableView.delegate  = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         fetchActiveBaby()
+        vaccineListTableView.dataSource = self
+        vaccineListTableView.delegate  = self
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -95,28 +97,35 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             let fetchRequest = Baby.fetchRequest() as NSFetchRequest<Baby>
             fetchRequest.predicate = NSPredicate(format: "isActive == true")
             let babies = try context.fetch(fetchRequest)
-//            DispatchQueue.main.async {
-                if(babies.count > 0){
-                    self.activeBaby = babies[0]
-                    self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
-    //                setProfileImage()
-                }
-//            }
+            if(babies.count > 0){
+                self.activeBaby = babies[0]
+                self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
+//                self.syncVaccineStatus(self.currentMonthId, self.activeBaby?.vaccineRecieved as [VaccineRecieved])
+                self.vaccineListTableView.reloadData()
+            }
             
         } catch {
             
         }
     }
     
+//    func syncVaccineStatus(_ currMonthId: Int, _ vaccineReceivedList:[VaccineRecieved]){
+//        
+//    }
+    
     func setCurrentMonth(_ id: Int){
+        var temp:[Month] = []
         for var mo in months{
             mo.isCurrent = false
             if(mo.id == id){
                 mo.isCurrent = true
             }
-            print("\(mo.id) + ': ' + \(mo.isCurrent)")
+            temp.append(mo)
+            print("\(mo.id): \(mo.isCurrent)")
         }
-        vaccineListTableView.reloadData()
+        months.removeAll()
+        months = temp
+        
     }
     
     func getCurrentMonth(_ babyDOB: Date){
@@ -125,7 +134,7 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         form.unitsStyle = .full
         form.allowedUnits = [.month]
         let s = form.string(from: babyDOB, to: Date())
-        let currMonthId = getMonthIdOnly(s ?? "0 month")
+        currMonthId = getMonthIdOnly(s ?? "0 month")
         setCurrentMonth(currMonthId)
     }
     
