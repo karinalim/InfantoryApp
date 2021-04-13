@@ -45,6 +45,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Baby's Profile" id="OCp-6B-LPq">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="aEd-HK-r8b">
+                            <color key="tintColor" red="0.058823529409999999" green="0.50980392159999999" blue="0.56470588239999997" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="tapToAddBaby" destination="q96-um-9dc" id="nZa-aw-bWS"/>
                             </connections>
@@ -101,6 +102,7 @@
             <point key="canvasLocation" x="1560" y="869"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.058823529409999999" green="0.50980392159999999" blue="0.56470588239999997" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
     <resources>
         <image name="person.circle.fill" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>

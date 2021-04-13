@@ -8,11 +8,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Baby Profile Edit-->
+        <!--Baby Profile Edit Controller-->
         <scene sceneID="D5x-gn-acL">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zHc-z3-rK3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <viewController id="9LR-WO-wTr" customClass="BabyProfileEdit" customModule="InfantoryApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9LR-WO-wTr" customClass="BabyProfileEditController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qap-Uv-DOo">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,6 +81,9 @@
                                                     <color key="titleColor" red="0.058823529409999999" green="0.50980392159999999" blue="0.56470588239999997" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                                                 </state>
                                             </button>
+                                            <connections>
+                                                <action selector="babyEditnCancelBtn:" destination="9LR-WO-wTr" id="pk6-2f-8nn"/>
+                                            </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" style="plain" id="GHJ-yJ-hFT">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="JSW-5w-upW">
@@ -91,6 +94,9 @@
                                                     <color key="titleColor" red="0.058823529409999999" green="0.50980392159999999" blue="0.56470588239999997" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
                                                 </state>
                                             </button>
+                                            <connections>
+                                                <action selector="babyEditDoneBtn:" destination="9LR-WO-wTr" id="RFN-ua-Dek"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -101,11 +107,23 @@
                                 <state key="normal" title="Edit Photo">
                                     <color key="titleColor" red="0.058823529411764705" green="0.50980392156862742" blue="0.56470588235294117" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="babyPhotoEditBtn:" destination="9LR-WO-wTr" eventType="touchUpInside" id="SQB-ST-UrE"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rBp-fc-DRx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <connections>
+                        <outlet property="babyDobEdit" destination="UBm-mi-ffs" id="ekP-ye-XhM"/>
+                        <outlet property="babyDobFieldEdit" destination="Rb3-pU-NrA" id="bTn-xh-xsW"/>
+                        <outlet property="babyGenderEdit" destination="NCo-lg-CSd" id="kjZ-1M-TN9"/>
+                        <outlet property="babyGenderFieldEdit" destination="YOG-qx-if5" id="Rsg-XG-7HM"/>
+                        <outlet property="babyNameEdit" destination="k6a-9o-voC" id="CML-aK-IAd"/>
+                        <outlet property="babyNameFieldEdit" destination="U0o-HH-ku4" id="jRa-qH-Wul"/>
+                        <outlet property="babyPhotoEdit" destination="YVi-0G-C4a" id="doE-hr-RBo"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="2024.6153846153845" y="891.46919431279616"/>

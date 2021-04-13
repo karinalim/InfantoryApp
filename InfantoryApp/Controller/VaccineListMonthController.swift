@@ -88,6 +88,7 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         let currVaccine = usedArray[indexPath.row]
         
         cell.setName(with: currVaccine.name)
+        cell.vaccineIcon.image = UIImage(named: currVaccine.icon)
         cell.layer.cornerRadius = 8.0
         
         return cell
