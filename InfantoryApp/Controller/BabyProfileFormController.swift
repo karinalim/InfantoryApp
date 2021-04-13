@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class BabyProfileFormController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -93,11 +94,28 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
             
             self.present(alert, animated: true, completion: nil)
         }else{
+            do{
+                let request = Baby.fetchRequest() as NSFetchRequest<Baby>
+                let pred = NSPredicate(format: "isActive = true")
+                request.predicate = pred
+                
+                self.items = try context.fetch(request)
+                
+                if self.items?.count != 0 {
+                    print(self.items?.count)
+                    let baby = self.items![0]
+                    baby.isActive = false
+                }
+            } catch{
+                
+            }
+            
             let newBaby = Baby(context: self.context)
             newBaby.name = nameField.text
             newBaby.dateOfBirth = dateOfBirth
             newBaby.gender = genderField.text
             newBaby.photo = generatedPhotoName
+            newBaby.isActive = true
             
             do{
                 try self.context.save()
