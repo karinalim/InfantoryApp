@@ -8,40 +8,41 @@
 import Foundation
 
 struct Vaccine {
-    private(set) var moonId: Int
+    private(set) var id: Int64 = -1
+    private(set) var moonId: Int = -1
 //    private(set) var moonName: String
-    private(set) var name: String
-    private(set) var icon: String
-    private(set) var description: String
-    private(set) var isTrue: Bool
+    private(set) var name: String = ""
+    private(set) var icon: String = ""
+    private(set) var description: String = ""
+    private(set) var isTrue: Bool = false
     
     static func generateVaccine() -> [Vaccine] {
         return [
-            Vaccine(moonId: 0, name: "HepB-1", icon: "iconHepatitisB", description: getHBdesc(), isTrue: true),
-            Vaccine(moonId: 1, name: "BCG", icon: "iconBCG", description: getBCGdesc(), isTrue: false),
-            Vaccine(moonId: 1, name: "Polio 1", icon: "iconPolio", description: getPolioDesc(), isTrue: true),
-            Vaccine(moonId: 2, name: "HepB-2", icon: "iconHepatitisB", description: getHBdesc(), isTrue: false),
-            Vaccine(moonId: 2, name: "Polio 2", icon: "iconPolio", description: getHBdesc(), isTrue: false),
-            Vaccine(moonId: 2, name: "DTaP-1", icon: "iconDTP", description: getDPTdesc(), isTrue: false),
-            Vaccine(moonId: 2, name: "Hib", icon: "iconHib", description:getHibDesc(), isTrue: false),
-            Vaccine(moonId: 2, name: "PCV", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
-            Vaccine(moonId: 2, name: "Rotavirus Monovalen", icon: "iconRotaMono", description: getRotaMonoDesc(), isTrue: false),
-            Vaccine(moonId: 3, name: "HepB-3", icon: "iconHepatitisB", description: getHBdesc(), isTrue: false),
-            Vaccine(moonId: 3, name: "Polio 3", icon: "iconPolio", description: getHBdesc(), isTrue: false),
-            Vaccine(moonId: 3, name: "DTaP-2", icon: "iconDTP", description: getDPTdesc(), isTrue: false),
-            Vaccine(moonId: 3, name: "Hib", icon: "iconHib", description:getHibDesc(), isTrue: false),
-            Vaccine(moonId: 4, name: "HepB-4", icon: "iconHepatitisB", description: getHBdesc(), isTrue: false),
-            Vaccine(moonId: 4, name: "Polio 3", icon: "iconPolio", description: getHBdesc(), isTrue: false),
-            Vaccine(moonId: 4, name: "DTaP-3", icon: "iconDTP", description: getDPTdesc(), isTrue: false),
-            Vaccine(moonId: 4, name: "PCV 2", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
-            Vaccine(moonId: 4, name: "Rotavirus Monovalen 2", icon: "iconRotaMono", description: getRotaMonoDesc(), isTrue: false),
-            Vaccine(moonId: 6, name: "PCV 3", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
-            Vaccine(moonId: 6, name: "Rotavirus Pentavalen 1", icon: "iconRotaPenta", description: getRotaPentaDesc(), isTrue: false),
-            Vaccine(moonId: 6, name: "Influenza", icon: "iconFlu", description: getFluDesc(), isTrue: false),
-            Vaccine(moonId: 9, name: "MR", icon: "iocnMR", description: getMRdesc(), isTrue: false),
-            Vaccine(moonId: 9, name: "JE", icon: "iocnJE", description: getJEdesc(), isTrue: false),
-            Vaccine(moonId: 11, name: "PCV 4", icon: "iconPCV", description: getDPTdesc(), isTrue: false),
-            Vaccine(moonId: 12, name: "JE", icon: "iconJE", description: getJEdesc(), isTrue: false),
+            Vaccine(id : 0, moonId: 0, name: "HepB-1", icon: "iconHepatitisB", description: getHBdesc(), isTrue: true),
+            Vaccine(id : 1, moonId: 1, name: "BCG", icon: "iconBCG", description: getBCGdesc(), isTrue: false),
+            Vaccine(id : 2, moonId: 1, name: "Polio 1", icon: "iconPolio", description: getPolioDesc(), isTrue: true),
+            Vaccine(id : 3, moonId: 2, name: "HepB-2", icon: "iconHepatitisB", description: getHBdesc(), isTrue: false),
+            Vaccine(id : 4, moonId: 2, name: "Polio 2", icon: "iconPolio", description: getHBdesc(), isTrue: false),
+            Vaccine(id : 5, moonId: 2, name: "DTaP-1", icon: "iconDTP", description: getDPTdesc(), isTrue: false),
+            Vaccine(id : 6, moonId: 2, name: "Hib", icon: "iconHib", description:getHibDesc(), isTrue: false),
+            Vaccine(id : 7, moonId: 2, name: "PCV", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
+            Vaccine(id : 8, moonId: 2, name: "Rotavirus Monovalen", icon: "iconRotaMono", description: getRotaMonoDesc(), isTrue: false),
+            Vaccine(id : 9, moonId: 3, name: "HepB-3", icon: "iconHepatitisB", description: getHBdesc(), isTrue: false),
+            Vaccine(id : 10, moonId: 3, name: "Polio 3", icon: "iconPolio", description: getHBdesc(), isTrue: false),
+            Vaccine(id : 11, moonId: 3, name: "DTaP-2", icon: "iconDTP", description: getDPTdesc(), isTrue: false),
+            Vaccine(id : 12, moonId: 3, name: "Hib", icon: "iconHib", description:getHibDesc(), isTrue: false),
+            Vaccine(id : 13, moonId: 4, name: "HepB-4", icon: "iconHepatitisB", description: getHBdesc(), isTrue: false),
+            Vaccine(id : 14, moonId: 4, name: "Polio 3", icon: "iconPolio", description: getHBdesc(), isTrue: false),
+            Vaccine(id : 15, moonId: 4, name: "DTaP-3", icon: "iconDTP", description: getDPTdesc(), isTrue: false),
+            Vaccine(id : 16, moonId: 4, name: "PCV 2", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
+            Vaccine(id : 17, moonId: 4, name: "Rotavirus Monovalen 2", icon: "iconRotaMono", description: getRotaMonoDesc(), isTrue: false),
+            Vaccine(id : 18, moonId: 6, name: "PCV 3", icon: "iconPCV", description: getPCVdesc(), isTrue: false),
+            Vaccine(id : 19, moonId: 6, name: "Rotavirus Pentavalen 1", icon: "iconRotaPenta", description: getRotaPentaDesc(), isTrue: false),
+            Vaccine(id : 20, moonId: 6, name: "Influenza", icon: "iconFlu", description: getFluDesc(), isTrue: false),
+            Vaccine(id : 21, moonId: 9, name: "MR", icon: "iocnMR", description: getMRdesc(), isTrue: false),
+            Vaccine(id : 22, moonId: 9, name: "JE", icon: "iocnJE", description: getJEdesc(), isTrue: false),
+            Vaccine(id : 23, moonId: 11, name: "PCV 4", icon: "iconPCV", description: getDPTdesc(), isTrue: false),
+            Vaccine(id : 24, moonId: 12, name: "JE", icon: "iconJE", description: getJEdesc(), isTrue: false),
         ]
     }
     
