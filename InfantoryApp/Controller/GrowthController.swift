@@ -68,8 +68,6 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
     }
     
-    
-    
     @IBOutlet weak var profileImage: UIImageView!
     
 //    growthView Manager
@@ -120,10 +118,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         self.growthCollectionView.reloadData()
         
         
-        
     }
 
-    
     
     func setUI() {
 //        UI setup
@@ -192,9 +188,6 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             addPhotoButtonLook.setTitle("Add Photo", for: .normal)
             
         }
-       
-      
-        
     }
     
 //    Add Photo Action

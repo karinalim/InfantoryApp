@@ -23,7 +23,7 @@
 		026B8345261FF22800339AD6 /* BabyProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 026B8343261FF22800339AD6 /* BabyProfileCell.xib */; };
 		029B5BE7261F315B00AA5F36 /* VaccineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029B5BE6261F315B00AA5F36 /* VaccineModel.swift */; };
 		029EC76F2623DA0100C3516A /* BabyProfileEdit.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 029EC76D2623DA0100C3516A /* BabyProfileEdit.storyboard */; };
-		029EC7772623FFD400C3516A /* BabyProfileEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029EC7762623FFD400C3516A /* BabyProfileEdit.swift */; };
+		029EC7772623FFD400C3516A /* BabyProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029EC7762623FFD400C3516A /* BabyProfileEditController.swift */; };
 		02DC391E261B85A60098990A /* BabyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DC391D261B85A60098990A /* BabyModel.swift */; };
 		02DC3980261DFF460098990A /* VaccineMonthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DC397E261DFF460098990A /* VaccineMonthCell.swift */; };
 		02DC3981261DFF460098990A /* VaccineMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02DC397F261DFF460098990A /* VaccineMonthCell.xib */; };
@@ -78,7 +78,7 @@
 		026B8343261FF22800339AD6 /* BabyProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BabyProfileCell.xib; sourceTree = "<group>"; };
 		029B5BE6261F315B00AA5F36 /* VaccineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaccineModel.swift; sourceTree = "<group>"; };
 		029EC76E2623DA0100C3516A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = InfantoryApp/View/InfantoryApp/Base.lproj/BabyProfileEdit.storyboard; sourceTree = "<group>"; };
-		029EC7762623FFD400C3516A /* BabyProfileEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyProfileEdit.swift; sourceTree = "<group>"; };
+		029EC7762623FFD400C3516A /* BabyProfileEditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyProfileEditController.swift; sourceTree = "<group>"; };
 		02DC391D261B85A60098990A /* BabyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyModel.swift; sourceTree = "<group>"; };
 		02DC397E261DFF460098990A /* VaccineMonthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaccineMonthCell.swift; sourceTree = "<group>"; };
 		02DC397F261DFF460098990A /* VaccineMonthCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VaccineMonthCell.xib; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 		02040724261B4E7E0036687E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				029EC7762623FFD400C3516A /* BabyProfileEdit.swift */,
+				029EC7762623FFD400C3516A /* BabyProfileEditController.swift */,
 				02040713261B4DBE0036687E /* BabyProfileFormController.swift */,
 				0204072B261B4EA70036687E /* BabyProfileController.swift */,
 				0204071B261B4DE00036687E /* GrowthController.swift */,
@@ -377,7 +377,7 @@
 				84A7EB49261D177C00169FE7 /* BabyCardView.swift in Sources */,
 				EE8F7D0E261ADFB700FD13AE /* ViewController.swift in Sources */,
 				EE8F7D0A261ADFB700FD13AE /* AppDelegate.swift in Sources */,
-				029EC7772623FFD400C3516A /* BabyProfileEdit.swift in Sources */,
+				029EC7772623FFD400C3516A /* BabyProfileEditController.swift in Sources */,
 				0204073E261B4F160036687E /* VaccineListController.swift in Sources */,
 				02DC3980261DFF460098990A /* VaccineMonthCell.swift in Sources */,
 				026B8344261FF22800339AD6 /* BabyProfileCell.swift in Sources */,
