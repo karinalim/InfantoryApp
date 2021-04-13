@@ -10,8 +10,10 @@ import UIKit
 
 
 class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    var monthSelected : Int = 1
+    var monthSelected : Int = 0
+    var currentMonth : Int = 1
     var monthInfoSelected : Int!
+    var isActive : Bool!
   
     
     @IBOutlet weak var growthCollectionView: UICollectionView!
@@ -25,7 +27,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         let growthCell = collectionView.dequeueReusableCell(withReuseIdentifier: "growthCell", for: indexPath) as! GrowthCollectionViewCell
         
         growthCell.configGrowthCell(with: (indexPath.row) )
-        if indexPath.row == monthSelected {
+        if  indexPath.row == currentMonth {
             growthCell.backgroundColor = UIColor.white
             growthCell.layer.cornerRadius = growthCell.bounds.width/2
             growthCell.layer.borderColor = UIColor.primary?.cgColor
@@ -35,7 +37,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             growthCell.layer.cornerRadius = growthCell.bounds.width/2
             growthCell.layer.borderColor = UIColor.systemGray5.cgColor
             growthCell.layer.borderWidth = 5
-        }; if monthInfoSelected == indexPath.row {
+        }; if monthSelected == indexPath.row {
             growthCell.layer.cornerRadius = growthCell.bounds.width/2
 //            growthCell.layer.borderColor = UIColor.systemGray5.cgColor
             growthCell.layer.borderWidth = 5
@@ -109,7 +111,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         print(indexPath.row)
-        self.monthInfoSelected = indexPath.row
+        self.monthSelected = indexPath.row
         print("click: \(self.monthSelected)")
         self.setGrowthInfo()
         self.growthCollectionView.reloadData()
