@@ -40,8 +40,6 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         
     }
     
-    
-    
     @IBOutlet weak var profileImage: UIImageView!
     
 //    growthView Manager
@@ -90,10 +88,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         self.growthCollectionView.reloadData()
         self.growthCollectionView.reloadData()
         
-        
     }
 
-    
     
     func setUI() {
 //        profileImage setUp
@@ -161,9 +157,6 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
             profileImage.image = UIImage(systemName: "person.crop.circle")
             profileImage.tintColor = UIColor.primary
         }
-       
-      
-        
     }
     
 //    Add Photo Action

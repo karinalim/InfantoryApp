@@ -16,6 +16,16 @@ class BabyProfileCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        makeImageRound()
+    }
+    
+    func makeImageRound() {
+        babyPhoto.layer.masksToBounds = false
+        babyPhoto.layer.borderColor = UIColor.black.cgColor
+        babyPhoto.layer.cornerRadius = babyPhoto.frame.height/2
+        babyPhoto.clipsToBounds = true
+        
+        babyPhoto.contentMode = .scaleAspectFill
     }
     
     public func setName(with name: String) {
