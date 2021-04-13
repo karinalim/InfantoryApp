@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 
 
 class GrowthController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    var monthSelected : Int = 0
+    var monthSelected : Int = 1
     var currentMonth : Int = 1
     var monthInfoSelected : Int!
     var isActive : Bool!
@@ -93,6 +94,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         imagePickerGrowth.allowsEditing = true
 //        ini apa artinya?
         imagePickerGrowth.mediaTypes = ["public.image"]
+        
+        GrowthController.changeToMonth()
         
         
     }
@@ -246,6 +249,12 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
            return nil
     }
     
+    
+    static func changeToMonth() {
+        let dateSince30 = Date(timeIntervalSinceReferenceDate: 30)
+        print(dateSince30)
+    }
+       
 }
 
 
