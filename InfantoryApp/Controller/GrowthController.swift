@@ -249,19 +249,37 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
            return nil
     }
     
-    
+    var items:[Baby]?
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+   
+    @IBOutlet weak var trialLabel: UILabel!
     @IBAction func trialButton(_ sender: Any) {
    changeToMonth()
-        fetchDOB()
+        fetchBabyData()
     }
     
     
-    func fetchDOB() {
+    func fetchBabyData() {
+//        let babyData = Baby(context: context)
+        do{
+            let request = Baby.fetchRequest() as NSFetchRequest<Baby>
+            let pred = NSPredicate(format: "isActive = true")
+            request.predicate = pred
+            self.items = try context.fetch(request)
+            
+            if self.items?.count != 0 {
+                let baby = self.items![0]
+                print(baby.dateOfBirth!)
+                print(baby.name!)
+                
+    }
+        }catch{
         
-    }
+        }}
     
    func changeToMonth() {
         let dateOfBirth : Date = Date(timeIntervalSinceNow: 1)
+    
         print(dateOfBirth)
         
     }
