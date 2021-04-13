@@ -27,6 +27,7 @@ struct Month{
 }
 
 var monthList:[Month] = [
+    Month(id: 0, icon:"icon_month_0", name: "New Born", vaccineList: ["Vaccine A", "Vaccine B", "Vaccine C", "Vaccine D"]),
     Month(id: 1, icon:"icon_month_1", name: "First Month", vaccineList: ["Vaccine A", "Vaccine B", "Vaccine C", "Vaccine D"]),
     Month(id: 2, icon:"icon_month_2", name: "Second Month", vaccineList: ["Vaccine A", "Vaccine B", "Vaccine C", "Vaccine D"]),
     Month(id: 3, icon:"icon_month_3", name: "Third Month", vaccineList: ["Vaccine A", "Vaccine B", "Vaccine C", "Vaccine D"]),
