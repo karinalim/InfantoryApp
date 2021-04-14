@@ -275,7 +275,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
                 self.currentMonth = Date().months(sinceDate: babyDOB!)!
                 
                 
-                print(currentMonth)
+//                print(currentMonth)
 // to month
                 
 //                to inspect
