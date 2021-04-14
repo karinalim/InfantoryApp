@@ -3,6 +3,7 @@
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,8 +12,7 @@
         <!--Baby Profile Edit Controller-->
         <scene sceneID="D5x-gn-acL">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zHc-z3-rK3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <viewController id="9LR-WO-wTr" customClass="BabyProfileEditController" sceneMemberID="viewController">
+                <viewController id="9LR-WO-wTr" customClass="BabyProfileEditController" customModule="InfantoryApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qap-Uv-DOo">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -67,40 +67,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.8049772382" green="0.94080662729999998" blue="0.96078950169999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </imageView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6sB-1n-IIn">
-                                <rect key="frame" x="0.0" y="0.0" width="389" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Add Child" id="vhB-8p-9Mz">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="Hcj-7w-vHR">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="yts-SP-1vK">
-                                                <rect key="frame" x="16" y="5.6666666666666679" width="92" height="33"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <state key="normal" title="Cancel">
-                                                    <color key="titleColor" red="0.058823529409999999" green="0.50980392159999999" blue="0.56470588239999997" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
-                                                </state>
-                                            </button>
-                                            <connections>
-                                                <action selector="babyEditnCancelBtn:" destination="9LR-WO-wTr" id="pk6-2f-8nn"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="GHJ-yJ-hFT">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="JSW-5w-upW">
-                                                <rect key="frame" x="281" y="5.6666666666666679" width="92" height="33"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <state key="normal" title="Done">
-                                                    <color key="titleColor" red="0.058823529409999999" green="0.50980392159999999" blue="0.56470588239999997" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
-                                                </state>
-                                            </button>
-                                            <connections>
-                                                <action selector="babyEditDoneBtn:" destination="9LR-WO-wTr" id="RFN-ua-Dek"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EG3-9z-vKD">
                                 <rect key="frame" x="159" y="252" width="71" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -108,29 +74,50 @@
                                     <color key="titleColor" red="0.058823529411764705" green="0.50980392156862742" blue="0.56470588235294117" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="babyPhotoEditBtn:" destination="9LR-WO-wTr" eventType="touchUpInside" id="SQB-ST-UrE"/>
+                                    <action selector="addPhotoButton:" destination="9LR-WO-wTr" eventType="touchUpInside" id="sBY-AK-nZ6"/>
                                 </connections>
                             </button>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNu-Fp-TqZ">
+                                <rect key="frame" x="-1" y="0.0" width="390" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Edit Baby" id="kgn-CL-gE8">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="oe4-Ax-tMI">
+                                            <color key="tintColor" name="primary"/>
+                                            <connections>
+                                                <action selector="cancelButton:" destination="9LR-WO-wTr" id="Hg7-e3-uZl"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="uau-mC-WFw">
+                                            <color key="tintColor" name="primary"/>
+                                            <connections>
+                                                <action selector="doneButton:" destination="9LR-WO-wTr" id="zcl-Qd-BqL"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rBp-fc-DRx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <outlet property="babyDobEdit" destination="UBm-mi-ffs" id="ekP-ye-XhM"/>
-                        <outlet property="babyDobFieldEdit" destination="Rb3-pU-NrA" id="bTn-xh-xsW"/>
-                        <outlet property="babyGenderEdit" destination="NCo-lg-CSd" id="kjZ-1M-TN9"/>
-                        <outlet property="babyGenderFieldEdit" destination="YOG-qx-if5" id="Rsg-XG-7HM"/>
-                        <outlet property="babyNameEdit" destination="k6a-9o-voC" id="CML-aK-IAd"/>
-                        <outlet property="babyNameFieldEdit" destination="U0o-HH-ku4" id="jRa-qH-Wul"/>
-                        <outlet property="babyPhotoEdit" destination="YVi-0G-C4a" id="doE-hr-RBo"/>
+                        <outlet property="birthdayField" destination="Rb3-pU-NrA" id="4rn-A3-g6N"/>
+                        <outlet property="genderField" destination="YOG-qx-if5" id="Tqi-M7-WBo"/>
+                        <outlet property="imageEditChild" destination="YVi-0G-C4a" id="r48-nn-8uL"/>
+                        <outlet property="nameField" destination="U0o-HH-ku4" id="sfK-zD-cXm"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zHc-z3-rK3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2024.6153846153845" y="891.46919431279616"/>
         </scene>
     </scenes>
     <resources>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
+        <namedColor name="primary">
+            <color red="0.058823529411764705" green="0.50980392156862742" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

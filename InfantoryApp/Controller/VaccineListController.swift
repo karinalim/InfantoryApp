@@ -6,18 +6,30 @@
 //
 
 import UIKit
+import CoreData
 
 class VaccineListController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    let months: [Month] = Month.generateAllMonth()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var months: [Month] = Month.generateAllMonth()
     var selectedMonth = Month()
+    var activeBaby: Baby?
+    var currentMonthId = -1
 
     @IBOutlet weak var vaccineListTableView: UITableView!
-    
+    @IBOutlet weak var activeProfilePicture: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+//        fetchActiveBaby()
+        // Do any additional setup after loading the view.
+//        vaccineListTableView.dataSource = self
+//        vaccineListTableView.delegate  = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        fetchActiveBaby()
         vaccineListTableView.dataSource = self
         vaccineListTableView.delegate  = self
     }
@@ -38,14 +50,15 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         cell.monthTitle.text = currMonth.name
         cell.vaccineList.text = getVaccines(vaccineList: currMonth.vaccineList)
         cell.overdueLabel.text = ""
-        //TODO: Create function to get completed & overdue status
-        if(indexPath.row == 1){
+        //TODO: Create function to get completed & overdue status -- CANT FETCH VACCINE RECEIVED FROM CORE DATA
+        if(currMonth.isOverdue && !currMonth.isCompleted){
             cell.overdueLabel.text = "!"
         }
-        //TODO: Create function to sync with baby age to get colored icon
-//        if(month.isCurrent){
-//            cell.iconMonth.tintColor = UIColor.primary
-//        }
+        //Create function to sync with baby age to get colored icon
+        if(currMonth.isCurrent){
+            print(currMonth.isCurrent)
+            cell.iconMonth.image = UIImage(named: "green_\(currMonth.icon)")
+        }
         return cell
     }
     
@@ -55,11 +68,12 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             return "No Vaccine"
         }
         for vaccine in vaccineList {
-            let vaccineName: String = vaccine.name + " Vaccine"
             if vaccines == "" {
-                vaccines = vaccineName
+                vaccines = vaccine.name
             }
-            vaccines = vaccines + ", " + vaccineName
+            else{
+                vaccines = vaccines + ", " + vaccine.name
+            }
         }
         return vaccines
     }
@@ -77,4 +91,98 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             destinationVC?.month = selectedMonth
         }
     }
+    
+    func fetchActiveBaby(){
+        do {
+            let fetchRequest = Baby.fetchRequest() as NSFetchRequest<Baby>
+            fetchRequest.predicate = NSPredicate(format: "isActive == true")
+            fetchRequest.relationshipKeyPathsForPrefetching = ["vaccineRecieved"]
+            let babies = try context.fetch(fetchRequest)
+            if(babies.count > 0){
+                self.activeBaby = babies[0]
+                self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
+                setCurrentMonth(currentMonthId)
+                self.vaccineListTableView.reloadData()
+            }
+            
+        } catch {
+            
+        }
+    }
+    
+    func setCurrentMonth(_ id: Int){
+        var temp:[Month] = []
+        for var mo in months{
+            mo.isCurrent = false
+            mo.isCompleted = false
+            mo.isOverdue = false
+            if(mo.id == id){
+                mo.isCurrent = true
+            }
+            else if(mo.id < id){
+                mo.isOverdue = true
+                mo.isCompleted = checkIfCompleted(mo)
+            }
+            temp.append(mo)
+            print("\(mo.id): \(mo.isCurrent)")
+        }
+        months.removeAll()
+        months = temp
+    }
+    
+    func checkIfCompleted(_ month: Month)-> Bool{
+        //TODO: get core data vaccine received here
+//        let vaccineReceivedList = activeBaby?.vaccineRecieved.getAll()
+//        let today = Date()
+//        if(month.vaccineList.count == vaccineReceivedList){
+//            month.isCompleted = true
+//        }
+//        for vList in month.vaccineList{
+//            let inputed = vaccineReceivedList.findById(vList.id)
+//            if(!inputed?isEmpty){
+//                if(today.compare(inputed.date) == ComparisonResult.orderedAscending){
+//                    vList.isTrue = false
+//                    month.isCompleted = false
+//                }
+//                else{
+//                    vList.isTrue = true
+//                }
+//            }
+//
+//        }
+        return false
+    }
+    
+    
+    func getCurrentMonth(_ babyDOB: Date){
+        let form = DateComponentsFormatter()
+        form.maximumUnitCount = 2
+        form.unitsStyle = .full
+        form.allowedUnits = [.month]
+        let s = form.string(from: babyDOB, to: Date())
+        currentMonthId = getMonthIdOnly(s ?? "0 month")
+    }
+    
+    func getMonthIdOnly(_ currentMonth: String) -> Int{
+        let stringArr: [String.SubSequence] = currentMonth.split(separator: " ")
+        return Int(stringArr[0]) ?? 0
+    }
+    
+//    func setProfileImage(){
+//        let img: UIImage = UIImage.init(named: "\(activeBaby.babyPhoto)") ?? UIImage.init(systemName: "person.fill") as! UIImage
+//        let imgView: UIImageView = makeImageRound()
+//        imgView.image = img
+//        imgView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+//        let rightBtn: UIBarButtonItem = UIBarButtonItem.init(customView: imgView)
+//        self.navigationItem.rightBarButtonItem = rightBtn;
+//    }
+//
+//    func makeImageRound() -> UIImageView{
+//        let view = UIImageView.init(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+//        view.layer.masksToBounds = true;
+//        view.layer.borderColor = UIColor.black.cgColor
+//        view.layer.cornerRadius = view.frame.height/2
+//        view.clipsToBounds = true
+//        return view
+//    }
 }
