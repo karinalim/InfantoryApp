@@ -17,7 +17,6 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
     var currentMonthId = -1
 
     @IBOutlet weak var vaccineListTableView: UITableView!
-    @IBOutlet weak var activeProfilePicture: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()

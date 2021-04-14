@@ -86,7 +86,12 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         
         cell.setName(with: "\(baby.name ?? "")")
         cell.setGender(with: "\(baby.gender ?? "")")
-        cell.babyPhoto.image = getSavedImage(named: "\(baby.photo ?? "")")
+        
+        if baby.photo == "" {
+            
+        } else {
+            cell.babyPhoto.image = getSavedImage(named: "\(baby.photo ?? "")")
+        }
         
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMMM yyyy"

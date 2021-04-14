@@ -19,6 +19,8 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     
     var activeBaby: Baby?
     
+    var vaccineCoreData:VaccineRecieved?
+    
     var arrTrue: [Int] = []
     var arrFalse: [Int] = []
 
@@ -43,7 +45,17 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         initData()
             
         initCollectionView()
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
+    }
+    
+    @objc func loadList(notification: NSNotification){
+        allVaccineMonth = []
+        trueVaccine = []
+        falseVaccine = []
+        usedArray = []
+        
+        initData()
     }
 
     //    IBAction Function
@@ -140,23 +152,55 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
 
             self.vaccineForDate = try context.fetch(request)
 
+
             if self.vaccineForDate.count != 0 {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MM/dd/yy"
                 date = formatter.string(from: vaccineForDate[0].date!)
 
             }
-            
+
             else {
                 date = "mm/dd/yy"
             }
-            
+
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         } catch {
-    
+
         }
+//        if activeBaby != nil {
+//            let vaccineReceivedList = (self.activeBaby?.vaccineRecieved) as! Set<VaccineRecieved>
+//            var flag = false
+//
+//            for vaccine in vaccineReceivedList {
+//                if vaccine.vaccineId == selectedVaccine.id {
+//                    vaccineCoreData = vaccine
+//
+//                    let formatter = DateFormatter()
+//                    formatter.dateFormat = "MM/dd/yy"
+//                    date = formatter.string(from: vaccine.date!)
+//
+//                    flag = true
+//                    print("flag true")
+//                    break
+//                }
+//            }
+//
+//            if flag == false {
+//                print("flag false")
+//                date = "mm/dd/yy"
+//            }
+//        } else {
+//            print("no baby")
+//            date = "mm/dd/yy"
+//        }
+//
+//        DispatchQueue.main.async {
+//            self.collectionView.reloadData()
+//        }
+        
         return date
     }
     
