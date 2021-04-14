@@ -17,6 +17,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     var isActive : Bool!
     var babyName :String?
     var babyDOB : Date?
+    var babyId : String = ""
   
     
     @IBOutlet weak var growthCollectionView: UICollectionView!
@@ -68,6 +69,12 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         return growthCell
         
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        fetchBabyData()
+        growthCollectionView.reloadData()
+        monthSelected = currentMonth
     }
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -185,8 +192,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         descriptionLabel.sizeToFit()
       
         
-        if getSavedImage(named: "\(babyName ?? "")selected\(monthSelected).png") != nil {
-            let catchedImage = getSavedImage(named: "\(babyName ?? "")selected\(monthSelected).png")
+        if getSavedImage(named: "\(babyId)selected\(monthSelected).png") != nil {
+            let catchedImage = getSavedImage(named: "\(babyId)selected\(monthSelected).png")
             profileImage.image = catchedImage
             profileImage.contentMode = .scaleAspectFill
             addPhotoButtonLook.setTitle("Edit Photo", for: .normal)
@@ -216,8 +223,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         imagePickerGrowth.dismiss(animated: true, completion: nil)
         
 //        works
-        saveImage(image: imageSelected, named: "\(babyName ?? "" )selected\(monthSelected).png")
-        let cathedImage = getSavedImage(named: "\(babyName ?? "" )selected\(monthSelected).png")
+        saveImage(image: imageSelected, named: "\(babyId)selected\(monthSelected).png")
+        let cathedImage = getSavedImage(named: "\(babyId)selected\(monthSelected).png")
         profileImage.image = cathedImage
        
       
@@ -274,8 +281,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
                 
                 self.currentMonth = Date().months(sinceDate: babyDOB!)!
                 
+                self.babyId = String("\(baby.objectID)".prefix(10))
                 
-//                print(currentMonth)
 // to month
                 
 //                to inspect
