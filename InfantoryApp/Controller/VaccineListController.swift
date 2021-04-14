@@ -100,6 +100,11 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             let babies = try context.fetch(fetchRequest)
             if(babies.count > 0){
                 self.activeBaby = babies[0]
+                print(self.activeBaby?.vaccineRecieved)
+                let vaccines = (self.activeBaby?.vaccineRecieved)! as! Set<VaccineRecieved>
+                for item in vaccines{
+                    print(item.vaccineId)
+                }
                 self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
                 setCurrentMonth(currentMonthId)
                 self.vaccineListTableView.reloadData()

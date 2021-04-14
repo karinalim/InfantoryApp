@@ -55,7 +55,8 @@ class VaccineDetailController: UIViewController {
             
             if self.items?.count != 0 {
                 let baby = self.items![0]
-                newVaccine.baby = baby
+                baby.addToVaccineRecieved(newVaccine)
+//                newVaccine.baby = baby
             }
         } catch{
             
