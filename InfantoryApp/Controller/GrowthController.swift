@@ -133,9 +133,9 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         self.growthCollectionView.reloadData()
         self.fetchBabyData()
 //        self.toMonth()
-        
-        
     }
+    
+ 
 
     
     func setUI() {
@@ -280,8 +280,11 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
                 self.babyDOB = baby.dateOfBirth!
                 
                 self.currentMonth = Date().months(sinceDate: babyDOB!)!
-                
-                self.babyId = String("\(baby.objectID)".prefix(10))
+                let shortenId = baby.babyId?.prefix(8) ?? ""
+                self.babyId = String("\(shortenId)")
+                print(shortenId)
+                print(self.babyId)
+                print(self.currentMonth)
                 
 // to month
                 
