@@ -75,6 +75,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
         fetchBabyData()
         growthCollectionView.reloadData()
         monthSelected = currentMonth
+        setGrowthInfo()
     }
     
     @IBOutlet weak var profileImage: UIImageView!
@@ -281,8 +282,8 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
                 let shortenId = baby.babyId?.prefix(8) ?? ""
                 self.babyId = String("\(shortenId)")
                 print(shortenId)
-                print(self.babyId)
-                print(self.currentMonth)
+                
+//                print(self.currentMonth)
                 
 // to month
                 
