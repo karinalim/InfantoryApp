@@ -54,6 +54,10 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         if(currMonth.isOverdue && !currMonth.isCompleted){
             cell.overdueLabel.text = "!"
         }
+        else if (currMonth.isOverdue && currMonth.isCompleted){
+            cell.vaccineList.text = "Completed"
+            cell.vaccineList.tintColor = UIColor.primary
+        }
         //Create function to sync with baby age to get colored icon
         if(currMonth.isCurrent){
             print(currMonth.isCurrent)
@@ -100,11 +104,6 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             let babies = try context.fetch(fetchRequest)
             if(babies.count > 0){
                 self.activeBaby = babies[0]
-                print(self.activeBaby?.vaccineRecieved)
-                let vaccines = (self.activeBaby?.vaccineRecieved)! as! Set<VaccineRecieved>
-                for item in vaccines{
-                    print(item.vaccineId)
-                }
                 self.getCurrentMonth((self.activeBaby?.dateOfBirth)!)
                 setCurrentMonth(currentMonthId)
                 self.vaccineListTableView.reloadData()
@@ -126,7 +125,7 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
             }
             else if(mo.id < id){
                 mo.isOverdue = true
-                mo.isCompleted = checkIfCompleted(mo)
+                mo = checkIfCompleted(mo)
             }
             temp.append(mo)
             print("\(mo.id): \(mo.isCurrent)")
@@ -135,28 +134,41 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         months = temp
     }
     
-    func checkIfCompleted(_ month: Month)-> Bool{
+    func checkIfCompleted(_ month: Month)-> Month{
         //TODO: get core data vaccine received here
-//        let vaccineReceivedList = activeBaby?.vaccineRecieved.getAll()
-//        let today = Date()
-//        if(month.vaccineList.count == vaccineReceivedList){
-//            month.isCompleted = true
-//        }
-//        for vList in month.vaccineList{
-//            let inputed = vaccineReceivedList.findById(vList.id)
-//            if(!inputed?isEmpty){
-//                if(today.compare(inputed.date) == ComparisonResult.orderedAscending){
-//                    vList.isTrue = false
-//                    month.isCompleted = false
-//                }
-//                else{
-//                    vList.isTrue = true
-//                }
-//            }
-//
-//        }
-        return false
+        var newMonth = month
+        let vaccineReceivedList = (self.activeBaby?.vaccineRecieved)! as! Set<VaccineRecieved>
+        var vrMonthList: [Vaccine] = []
+        let today = Date()
+        for var vm in newMonth.vaccineList{
+            for inputed in vaccineReceivedList{
+                if(vm.id != inputed.vaccineId) {continue}
+                if(today.compare(inputed.date!) == ComparisonResult.orderedAscending){
+                    vm.isTrue = false
+                }
+                else{
+                    vm.isTrue = true
+                }
+                vrMonthList.append(vm)
+            }
+        }
+        if(month.vaccineList.count == vrMonthList.count){
+            newMonth.isCompleted = true
+        }
+        else{
+            newMonth.isCompleted = false
+        }
+        return newMonth
     }
+    
+//    func getCurrentMonthVaccineReceived(_ month: Month) -> Set<VaccineRecieved>{
+//        let vaccineReceivedList = (self.activeBaby?.vaccineRecieved)! as! Set<VaccineRecieved>
+//        let resultList = []
+//        for vm in month.vaccineList{
+//            let findVR = vaccineReceivedList.filter($ == vm.id)
+//            if
+//        }
+//    }
     
     
     func getCurrentMonth(_ babyDOB: Date){
