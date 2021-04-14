@@ -17,8 +17,7 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     var trueVaccine: [Vaccine] = []
     var falseVaccine: [Vaccine] = []
     
-    var vaccines:[VaccineRecieved]?
-    var babies:[Baby]?
+    var activeBaby: Baby?
     
     var arrTrue: [Int] = []
     var arrFalse: [Int] = []
@@ -39,62 +38,14 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         
         segmentedControl.selectedSegmentIndex = 0
         
-        initData()
-        
         self.title = month.name
         
+        initData()
+            
         initCollectionView()
-    }
-    
-    func fetchDate() -> String {
-//        do {
-//            self.items = try context.fetch(Baby.fetchRequest())
-//
-//            DispatchQueue.main.async {
-//                self.colView.reloadData()
-//            }
-//        } catch {
-//
-//        }
-    }
-    
-    func fetchData(with curr:Vaccine) -> String {
-        var date = ""
-        do{
-            let request = VaccineRecieved.fetchRequest() as NSFetchRequest<VaccineRecieved>
-            let pred = NSPredicate(format: "vaccineId == \(curr.id)")
-            request.predicate = pred
 
-            self.vaccineForDate = try context.fetch(request)
-
-            if self.vaccineForDate.count != 0 {
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MM/dd/yy"
-                date = formatter.string(from: vaccineForDate[0].date!)
-
-            }
-//            let request = Baby.fetchRequest() as NSFetchRequest<Baby>
-//            let pred = NSPredicate(format: "isActive = true")
-//            request.predicate = pred
-//
-//            self.babies = try context.fetch(request)
-//
-//            self.vaccines = babies[0].va
-            
-            
-            else {
-                date = "mm/dd/yy"
-            }
-            
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        } catch {
-    
-        }
-        return date
     }
-    
+
     //    IBAction Function
     //    ============================================================================
     
@@ -110,36 +61,66 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     //    Initialize Page
     //    ============================================================================
     
+    func fetchActiveBaby(){
+        do {
+            let fetchRequest = Baby.fetchRequest() as NSFetchRequest<Baby>
+            fetchRequest.predicate = NSPredicate(format: "isActive == true")
+            fetchRequest.relationshipKeyPathsForPrefetching = ["vaccineRecieved"]
+            let babies = try context.fetch(fetchRequest)
+            if(babies.count > 0){
+                self.activeBaby = babies[0]
+                self.collectionView.reloadData()
+            }
+        } catch {
+            
+        }
+    }
+    
     func initData() {
-        for vac in vaccineForDate {
-            setDateTrueFalse(vaccine: vac)
+        fetchActiveBaby()
+
+        allVaccineMonth = Vaccine.sortVaccine(month.id)
+        
+        if activeBaby != nil {
+            let vaccineReceivedList = (self.activeBaby?.vaccineRecieved) as! Set<VaccineRecieved>
+            
+            let today = Date()
+            var temp: [Vaccine] = []
+
+            for var vm in allVaccineMonth {
+                var flag = -1
+                for inputed in vaccineReceivedList {
+                    
+                    if(vm.id == inputed.vaccineId) {
+                        
+                        if(today.compare(inputed.date!) == ComparisonResult.orderedAscending) {
+                            vm.isTrue = false
+                            flag = 0
+                            temp.append(vm)
+                        }
+                        else if (today.compare(inputed.date!) == ComparisonResult.orderedDescending) {
+                            vm.isTrue = true
+                            flag = 0
+                            temp.append(vm)
+                        }
+                    }
+                }
+                if flag == -1 {
+                    temp.append(vm)
+                }
+            }
+            allVaccineMonth.removeAll()
+            allVaccineMonth = temp
         }
         
         for vaccine in allVaccineMonth {
-            for tru in arrTrue {
-                if vaccine.id == tru {
-                    trueVaccine.append(vaccine)
-                }
+            
+            if vaccine.isTrue == true {
+                trueVaccine.append(vaccine)
+            } else {
+                falseVaccine.append(vaccine)
             }
         }
-        
-        for vaccine in allVaccineMonth {
-            for fal in arrFalse {
-                if vaccine.id == fal {
-                    falseVaccine.append(vaccine)
-                }
-            }
-        }
-        
-//        allVaccineMonth = Vaccine.sortVaccine(month.id)
-//
-//        for vaccine in allVaccineMonth {
-//            if vaccine.isTrue == true {
-//                trueVaccine.append(vaccine)
-//            } else {
-//                falseVaccine.append(vaccine)
-//            }
-//        }
         
         usedArray = falseVaccine
     }
@@ -148,6 +129,35 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         collectionView.register(VaccineMonthCell.nib(), forCellWithReuseIdentifier: "VaccineMonthCell")
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    func fetchDateFromCoreData(with curr:Vaccine) -> String {
+        var date = ""
+        do{
+            let request = VaccineRecieved.fetchRequest() as NSFetchRequest<VaccineRecieved>
+            let pred = NSPredicate(format: "vaccineId == \(curr.id)")
+            request.predicate = pred
+
+            self.vaccineForDate = try context.fetch(request)
+
+            if self.vaccineForDate.count != 0 {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM/dd/yy"
+                date = formatter.string(from: vaccineForDate[0].date!)
+
+            }
+            
+            else {
+                date = "mm/dd/yy"
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        } catch {
+    
+        }
+        return date
     }
     
 //    Collection View Function
@@ -169,7 +179,7 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VaccineMonthCell", for: indexPath) as! VaccineMonthCell
         
         let currVaccine = usedArray[indexPath.row]
-        let vaccineDate = fetchData(with: currVaccine)
+        let vaccineDate = fetchDateFromCoreData(with: currVaccine)
         
         cell.setName(with: currVaccine.name)
         cell.vaccineIcon.image = UIImage(named: currVaccine.icon)
@@ -185,34 +195,13 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         return CGSize(width: 360, height: 70)
     }
     
+    //    Move Segue Function
+    //    ============================================================================
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "VaccineDetailSegue"){
             let destinationVC = segue.destination as? VaccineDetailController
             destinationVC?.vaccine = selectedVaccine
         }
-    }
-    
-    func setDateTrueFalse(vaccine: VaccineRecieved) {
-        let days = Date().compareDate(from: vaccine.date!, only: .day)
-        
-        let months = Date().compareDate(from: vaccine.date!, only: .month)
-        
-        let years = Date().compareDate(from: vaccine.date!, only: .year)
-        
-        if days > 0 || months > 0 || years > 0 {
-            
-            arrTrue.append(Int(vaccine.vaccineId))
-        } else {
-            arrFalse.append(Int(vaccine.vaccineId))
-        }
-    }
-}
-
-extension Date {
-
-    func compareDate(from date: Date, only component: Calendar.Component, calendar: Calendar = .current) -> Int {
-        let days1 = calendar.component(component, from: self)
-        let days2 = calendar.component(component, from: date)
-        return days1 - days2
     }
 }
