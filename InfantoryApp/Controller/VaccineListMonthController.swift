@@ -16,6 +16,11 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     var allVaccineMonth: [Vaccine] = []
     var trueVaccine: [Vaccine] = []
     var falseVaccine: [Vaccine] = []
+    
+    var activeBaby: Baby?
+    
+    var arrTrue: [Int] = []
+    var arrFalse: [Int] = []
 
     var month: Month = Month()
     var usedArray: [Vaccine] = []
@@ -24,6 +29,8 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     
     var vaccineForDate: [VaccineRecieved] = []
     
+    
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
@@ -31,39 +38,14 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         
         segmentedControl.selectedSegmentIndex = 0
         
-        initData()
-        
         self.title = month.name
         
+        initData()
+            
         initCollectionView()
+
     }
-    
-    func fetchData(with curr:Vaccine) -> String {
-        var date = ""
-        do{
-            let request = VaccineRecieved.fetchRequest() as NSFetchRequest<VaccineRecieved>
-            let pred = NSPredicate(format: "vaccineId == \(curr.id)")
-            request.predicate = pred
-    
-            self.vaccineForDate = try context.fetch(request)
-    
-            if self.vaccineForDate.count != 0 {
-                let formatter = DateFormatter()
-                formatter.dateFormat = "MM/dd/yy"
-                date = formatter.string(from: vaccineForDate[0].date!)
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            } else {
-                date = "dd/mm/yy"
-            }
-        } catch {
-    
-        }
-        return date
-    }
-    
+
     //    IBAction Function
     //    ============================================================================
     
@@ -79,10 +61,60 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     //    Initialize Page
     //    ============================================================================
     
+    func fetchActiveBaby(){
+        do {
+            let fetchRequest = Baby.fetchRequest() as NSFetchRequest<Baby>
+            fetchRequest.predicate = NSPredicate(format: "isActive == true")
+            fetchRequest.relationshipKeyPathsForPrefetching = ["vaccineRecieved"]
+            let babies = try context.fetch(fetchRequest)
+            if(babies.count > 0){
+                self.activeBaby = babies[0]
+                self.collectionView.reloadData()
+            }
+        } catch {
+            
+        }
+    }
+    
     func initData() {
+        fetchActiveBaby()
+
         allVaccineMonth = Vaccine.sortVaccine(month.id)
         
+        if activeBaby != nil {
+            let vaccineReceivedList = (self.activeBaby?.vaccineRecieved) as! Set<VaccineRecieved>
+            
+            let today = Date()
+            var temp: [Vaccine] = []
+
+            for var vm in allVaccineMonth {
+                var flag = -1
+                for inputed in vaccineReceivedList {
+                    
+                    if(vm.id == inputed.vaccineId) {
+                        
+                        if(today.compare(inputed.date!) == ComparisonResult.orderedAscending) {
+                            vm.isTrue = false
+                            flag = 0
+                            temp.append(vm)
+                        }
+                        else if (today.compare(inputed.date!) == ComparisonResult.orderedDescending) {
+                            vm.isTrue = true
+                            flag = 0
+                            temp.append(vm)
+                        }
+                    }
+                }
+                if flag == -1 {
+                    temp.append(vm)
+                }
+            }
+            allVaccineMonth.removeAll()
+            allVaccineMonth = temp
+        }
+        
         for vaccine in allVaccineMonth {
+            
             if vaccine.isTrue == true {
                 trueVaccine.append(vaccine)
             } else {
@@ -97,6 +129,35 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         collectionView.register(VaccineMonthCell.nib(), forCellWithReuseIdentifier: "VaccineMonthCell")
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    func fetchDateFromCoreData(with curr:Vaccine) -> String {
+        var date = ""
+        do{
+            let request = VaccineRecieved.fetchRequest() as NSFetchRequest<VaccineRecieved>
+            let pred = NSPredicate(format: "vaccineId == \(curr.id)")
+            request.predicate = pred
+
+            self.vaccineForDate = try context.fetch(request)
+
+            if self.vaccineForDate.count != 0 {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "MM/dd/yy"
+                date = formatter.string(from: vaccineForDate[0].date!)
+
+            }
+            
+            else {
+                date = "mm/dd/yy"
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        } catch {
+    
+        }
+        return date
     }
     
 //    Collection View Function
@@ -118,7 +179,7 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VaccineMonthCell", for: indexPath) as! VaccineMonthCell
         
         let currVaccine = usedArray[indexPath.row]
-        let vaccineDate = fetchData(with: currVaccine)
+        let vaccineDate = fetchDateFromCoreData(with: currVaccine)
         
         cell.setName(with: currVaccine.name)
         cell.vaccineIcon.image = UIImage(named: currVaccine.icon)
@@ -133,6 +194,9 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 360, height: 70)
     }
+    
+    //    Move Segue Function
+    //    ============================================================================
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "VaccineDetailSegue"){

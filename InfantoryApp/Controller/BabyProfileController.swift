@@ -173,9 +173,11 @@ class BabyProfileController: UIViewController, UICollectionViewDataSource, UICol
         do {
             self.items = try context.fetch(Baby.fetchRequest())
             
-            let baby = self.items![0]
+            if self.items?.count ?? 0 > 0 {
+                let baby = self.items![0]
+                baby.isActive = true
+            }
             
-            baby.isActive = true
         } catch {
             
         }

@@ -261,9 +261,7 @@ class GrowthController: UIViewController, UICollectionViewDelegate, UICollection
     
     var items:[Baby]?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-   
- 
-    
+
     
     func fetchBabyData() {
 //        let babyData = Baby(context: context)

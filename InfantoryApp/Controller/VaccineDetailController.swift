@@ -15,6 +15,8 @@ class VaccineDetailController: UIViewController {
     @IBOutlet weak var vaccineDetail: UILabel!
     @IBOutlet weak var dateField: UITextField!
     @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var vaccineIcon: UIImageView!
+    @IBOutlet weak var dateIcon: UIImageView!
     
     let datePicker = UIDatePicker()
     
@@ -38,6 +40,8 @@ class VaccineDetailController: UIViewController {
     func initData() {
         vaccineDetail.text = vaccine.description
         navBar.topItem?.title = vaccine.name
+        vaccineIcon.image = UIImage(named: vaccine.icon)
+        dateIcon.image = UIImage(named: "iconVaccine")
         print(vaccine.name)
     }
     
@@ -97,6 +101,8 @@ class VaccineDetailController: UIViewController {
         
         dateField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadMonthData"), object: nil)
     }
 
     /*

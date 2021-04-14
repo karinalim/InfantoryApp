@@ -32,6 +32,7 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         fetchActiveBaby()
         vaccineListTableView.dataSource = self
         vaccineListTableView.delegate  = self
+//        print(activeBaby)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -60,7 +61,6 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         }
         //Create function to sync with baby age to get colored icon
         if(currMonth.isCurrent){
-            print(currMonth.isCurrent)
             cell.iconMonth.image = UIImage(named: "green_\(currMonth.icon)")
         }
         return cell
@@ -88,7 +88,6 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
         
     }
     
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "VaccineListMonthSegue"){
             let destinationVC = segue.destination as? VaccineListMonthController
@@ -128,20 +127,21 @@ class VaccineListController: UIViewController, UITableViewDataSource, UITableVie
                 mo = checkIfCompleted(mo)
             }
             temp.append(mo)
-            print("\(mo.id): \(mo.isCurrent)")
+//            print("\(mo.id): \(mo.isCurrent)")
         }
         months.removeAll()
         months = temp
     }
     
-    func checkIfCompleted(_ month: Month)-> Month{
+    func checkIfCompleted(_ month: Month)-> Month {
         //TODO: get core data vaccine received here
         var newMonth = month
         let vaccineReceivedList = (self.activeBaby?.vaccineRecieved)! as! Set<VaccineRecieved>
+//        print(vaccineReceivedList)
         var vrMonthList: [Vaccine] = []
         let today = Date()
-        for var vm in newMonth.vaccineList{
-            for inputed in vaccineReceivedList{
+        for var vm in newMonth.vaccineList {
+            for inputed in vaccineReceivedList {
                 if(vm.id != inputed.vaccineId) {continue}
                 if(today.compare(inputed.date!) == ComparisonResult.orderedAscending){
                     vm.isTrue = false
