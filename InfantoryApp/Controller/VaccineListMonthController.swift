@@ -51,12 +51,11 @@ class VaccineListMonthController: UIViewController, UICollectionViewDataSource, 
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MM/dd/yy"
                 date = formatter.string(from: vaccineForDate[0].date!)
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
             } else {
                 date = "dd/mm/yy"
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
             }
         } catch {
     
