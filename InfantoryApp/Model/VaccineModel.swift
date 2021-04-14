@@ -13,7 +13,8 @@ struct Vaccine {
     private(set) var name: String = ""
     private(set) var icon: String = ""
     private(set) var description: String = ""
-    private(set) var isTrue: Bool = false
+    var isTrue: Bool = false
+    
     
     static func generateVaccine() -> [Vaccine] {
         return [
