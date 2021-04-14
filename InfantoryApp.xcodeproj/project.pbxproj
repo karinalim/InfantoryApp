@@ -200,9 +200,9 @@
 		EE8F7D08261ADFB700FD13AE /* InfantoryApp */ = {
 			isa = PBXGroup;
 			children = (
-				02040724261B4E7E0036687E /* Controller */,
 				02040742261B4F400036687E /* Model */,
 				02040712261B4D480036687E /* View */,
+				02040724261B4E7E0036687E /* Controller */,
 				EE8F7D09261ADFB700FD13AE /* AppDelegate.swift */,
 				EE8F7D0B261ADFB700FD13AE /* SceneDelegate.swift */,
 				EE8F7D15261ADFB800FD13AE /* Assets.xcassets */,

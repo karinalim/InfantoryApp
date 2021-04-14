@@ -101,6 +101,8 @@ class VaccineDetailController: UIViewController {
         
         dateField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loadMonthData"), object: nil)
     }
 
     /*
