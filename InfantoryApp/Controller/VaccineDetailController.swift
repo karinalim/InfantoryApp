@@ -83,6 +83,7 @@ class VaccineDetailController: UIViewController {
         dateIcon.image = UIImage(named: "iconVaccine")
     }
     
+    //tutup modal
     @IBAction func CloseModal(_ sender: Any) {
         if vaccine.isTrue == false {
             do{
