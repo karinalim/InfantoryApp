@@ -115,6 +115,7 @@ class BabyProfileFormController: UIViewController, UIImagePickerControllerDelega
             newBaby.gender = genderField.text
             newBaby.photo = generatedPhotoName
             newBaby.isActive = true
+            newBaby.babyId = NSUUID().uuidString
             
             do{
                 try self.context.save()
